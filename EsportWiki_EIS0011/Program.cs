@@ -38,6 +38,7 @@ namespace EsportWiki_EIS0011
             p.Last_Name = "Test";
             p.Birth_Date = 2001;
             p.Role = "Player";
+           
             p.Game_Id = GameTable.SelectOne(2, db);
             p.Team_Id = TeamTable.SelectOne(3, db);
 
@@ -292,7 +293,7 @@ namespace EsportWiki_EIS0011
 
 
             Console.WriteLine("5. d) Smazani zaznamu");            
-            Console.WriteLine("Smazano " + EventTable.Delete(77) + " zaznamu.");
+            Console.WriteLine("Smazano " + EventTable.Delete(4) + " zaznamu.");
 
 
 

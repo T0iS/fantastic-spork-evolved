@@ -12,5 +12,6 @@ namespace EsportWiki_EIS0011.Database
         public string Name { get; set; }
         public string Organiser { get; set; }
         public int? Prizepool { get; set; }
+        public string EVDATE { get; set; }
     }
 }

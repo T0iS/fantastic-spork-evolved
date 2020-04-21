@@ -10,22 +10,23 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
 {
     class EventTable
     {
-        public static String SQL_INSERT = "INSERT INTO Event (Id, Name, Organiser, Prizepool) VALUES (:id, :name, :organiser, :pp)";
-        public static String SQL_UPDATE = "UPDATE Event SET Name=:name, Organiser=:organiser, Prizepool=:pp WHERE Id=:id";
+        public static String SQL_INSERT = "INSERT INTO Event (Id, Name, Organiser, Prizepool, EVDATE) VALUES (:id, :name, :organiser, :pp, :ed)";
+        public static String SQL_UPDATE = "UPDATE Event SET Name=:name, Organiser=:organiser, Prizepool=:pp, EVDATE=:ed WHERE Id=:id";
         public static String SQL_DELETE_ID = "DELETE FROM Event WHERE Id=:id";
         public static String SQL_SELECT = "SELECT * FROM Event order by Name asc";
         public static String SQL_SELECT_ONE = "SELECT * FROM Event WHERE Id=:id";
         public static String SQL_SELECT_LAST = "SELECT MAX(Id) FROM Event";
-        public static String SQL_SELECT_ONE_PAR = "SELECT * FROM Event WHERE Organiser=:org";
+        public static String SQL_SELECT_ONE_PAR = "SELECT * FROM Event WHERE Organiser=:org AND EVDATE=:ed";
 
 
         private static void PrepareCommand(OracleCommand command, Event e)
         {
             command.BindByName = true;
             command.Parameters.AddWithValue(":id", e.Id);
-            command.Parameters.AddWithValue(":name", e.Name);
+            command.Parameters.AddWithValue(":name", e.Name); 
             command.Parameters.AddWithValue(":organiser", e.Organiser);
-            command.Parameters.AddWithValue(":pp", e.Prizepool);
+            command.Parameters.AddWithValue(":pp", e.Prizepool); 
+            command.Parameters.AddWithValue(":ed", e.EVDATE);
         }
 
         private static Collection<Event> Read(OracleDataReader reader)
@@ -211,6 +212,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
 
             OracleCommand command = db.CreateCommand(SQL_SELECT_ONE_PAR);
             command.Parameters.AddWithValue(":org", or);
+            command.Parameters.AddWithValue(":ed", DateTime.Now.Year.ToString());
             OracleDataReader reader = db.Select(command);
 
             Collection<Event> Users = Read(reader);
