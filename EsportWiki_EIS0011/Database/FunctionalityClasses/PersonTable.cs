@@ -65,10 +65,12 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 }
                 Game g = new Game();
                 g.Id = reader.GetInt32(++i);
+                g = GameTable.SelectOne(g.Id);
                 m.Game_Id = g;
 
                 Team t = new Team();
                 t.Id = reader.GetInt32(++i);
+                t = TeamTable.SelectOne(t.Id);
                 m.Team_Id = t;
 
                 People.Add(m);

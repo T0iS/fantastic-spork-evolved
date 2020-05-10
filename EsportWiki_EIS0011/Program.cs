@@ -17,16 +17,16 @@ namespace EsportWiki_EIS0011
         [STAThread]
         static void Main()
         {
-            /* Application.EnableVisualStyles();
+             Application.EnableVisualStyles();
              Application.SetCompatibleTextRenderingDefault(false);
-             Application.Run(new Form1());*/
+             Application.Run(new Form1());
 
 
             DatabaseT db = new DatabaseT();
             db.Connect();
 
            
-            
+            /*
 
 
             Console.WriteLine(" ------------------------------------- 1. Evidence hracu ------------------------------------- ");
@@ -59,7 +59,7 @@ namespace EsportWiki_EIS0011
             PersonTable.Update(toBeChanged, db);
 
             */
-
+            /*
             Console.WriteLine("1. c) Odstraneni hrace");
             Console.WriteLine("Odstraneno " + PersonTable.Delete(66) +" zaznamu");
 
@@ -347,7 +347,7 @@ namespace EsportWiki_EIS0011
             Console.WriteLine("7. b) Odebrani uzivatele");
             Console.WriteLine("Smazano " + System_userTable.Delete(77) + " zaznamu.");
 
-
+            */
         }
     }
 }
