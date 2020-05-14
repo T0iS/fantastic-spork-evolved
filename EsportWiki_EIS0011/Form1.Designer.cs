@@ -32,6 +32,9 @@
             this.playersLabel = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.addPlayerButton = new System.Windows.Forms.Button();
+            this.searchBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.searchButton = new System.Windows.Forms.Button();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.p_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Surname = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,6 +43,7 @@
             this.Game = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Team = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_edit = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.col_ed = new System.Windows.Forms.DataGridViewButtonColumn();
             this.col_del = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.TablePlayers)).BeginInit();
             this.SuspendLayout();
@@ -56,10 +60,11 @@
             this.Game,
             this.Team,
             this.col_edit,
+            this.col_ed,
             this.col_del});
             this.TablePlayers.Location = new System.Drawing.Point(82, 77);
             this.TablePlayers.Name = "TablePlayers";
-            this.TablePlayers.Size = new System.Drawing.Size(598, 231);
+            this.TablePlayers.Size = new System.Drawing.Size(644, 231);
             this.TablePlayers.TabIndex = 0;
             this.TablePlayers.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.TablePlayers_CellClick);
             // 
@@ -97,6 +102,33 @@
             this.addPlayerButton.Text = "Add player";
             this.addPlayerButton.UseVisualStyleBackColor = false;
             this.addPlayerButton.Click += new System.EventHandler(this.addPlayerButton_Click);
+            // 
+            // searchBox
+            // 
+            this.searchBox.Location = new System.Drawing.Point(342, 46);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(150, 20);
+            this.searchBox.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(253, 49);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(83, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Search players: ";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // searchButton
+            // 
+            this.searchButton.Location = new System.Drawing.Point(498, 46);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(54, 20);
+            this.searchButton.TabIndex = 6;
+            this.searchButton.Text = "Search";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
             // 
             // ID
             // 
@@ -142,11 +174,20 @@
             // 
             // col_edit
             // 
-            this.col_edit.HeaderText = "Edit";
+            this.col_edit.HeaderText = "Detail";
             this.col_edit.Name = "col_edit";
-            this.col_edit.Text = "Edit";
+            this.col_edit.Text = "detail";
             this.col_edit.UseColumnTextForButtonValue = true;
-            this.col_edit.Width = 40;
+            this.col_edit.Width = 47;
+            // 
+            // col_ed
+            // 
+            this.col_ed.HeaderText = "Edit";
+            this.col_ed.Name = "col_ed";
+            this.col_ed.Text = "edit";
+            this.col_ed.ToolTipText = "edit";
+            this.col_ed.UseColumnTextForButtonValue = true;
+            this.col_ed.Width = 40;
             // 
             // col_del
             // 
@@ -161,6 +202,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.searchButton);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.searchBox);
             this.Controls.Add(this.addPlayerButton);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.playersLabel);
@@ -180,6 +224,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridViewButtonColumn tab_edit;
         private System.Windows.Forms.Button addPlayerButton;
+        private System.Windows.Forms.TextBox searchBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn p_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn Surname;
@@ -188,6 +235,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Game;
         private System.Windows.Forms.DataGridViewTextBoxColumn Team;
         private System.Windows.Forms.DataGridViewButtonColumn col_edit;
+        private System.Windows.Forms.DataGridViewButtonColumn col_ed;
         private System.Windows.Forms.DataGridViewButtonColumn col_del;
     }
 }

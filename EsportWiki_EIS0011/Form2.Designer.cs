@@ -31,7 +31,6 @@
             this.Player_add_edit = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -47,6 +46,8 @@
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.listBox3 = new System.Windows.Forms.ListBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Player_add_edit
@@ -65,9 +66,9 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.Location = new System.Drawing.Point(179, 53);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 20);
+            this.label2.Size = new System.Drawing.Size(120, 20);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Edit player";
+            this.label2.Text = "Display player";
             // 
             // textBox1
             // 
@@ -75,13 +76,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(86, 20);
             this.textBox1.TabIndex = 3;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(303, 108);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(86, 20);
-            this.textBox2.TabIndex = 4;
             // 
             // textBox4
             // 
@@ -235,12 +229,35 @@
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // listBox3
+            // 
+            this.listBox3.FormattingEnabled = true;
+            this.listBox3.Location = new System.Drawing.Point(303, 108);
+            this.listBox3.Name = "listBox3";
+            this.listBox3.Size = new System.Drawing.Size(101, 17);
+            this.listBox3.TabIndex = 22;
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button3.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button3.Location = new System.Drawing.Point(374, 52);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(112, 28);
+            this.button3.TabIndex = 23;
+            this.button3.Text = "Show teammates";
+            this.button3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(498, 291);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.listBox3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.listBox2);
@@ -256,7 +273,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Player_add_edit);
@@ -272,7 +288,6 @@
         private System.Windows.Forms.Label Player_add_edit;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label1;
@@ -288,5 +303,7 @@
         private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ListBox listBox3;
+        private System.Windows.Forms.Button button3;
     }
 }

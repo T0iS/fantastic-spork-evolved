@@ -21,12 +21,19 @@ namespace EsportWiki_EIS0011
             refreshRows();
         }
 
-        public void refreshRows()
+        public void refreshRows(Collection<Person> pl = null)
         {
 
-
+            Collection<Person> players;
             TablePlayers.Rows.Clear();
-            Collection<Person> players = PersonTable.Select();
+            if (pl == null)
+            {
+                players = PersonTable.Select();
+            }
+            else
+            {
+                players = pl;
+            }
             foreach (Person p in players)
             {
                 int n = TablePlayers.Rows.Add();
@@ -51,31 +58,70 @@ namespace EsportWiki_EIS0011
         {
             if(e.ColumnIndex == TablePlayers.Columns["col_edit"].Index)
             {
-               
-                //edit it!
-                string p_id = TablePlayers.Rows[e.RowIndex].Cells[0].Value.ToString();
-                Form2 f2 = new Form2(false, p_id);
-                f2.ShowDialog();
-                refreshRows();
-                
+
+                //detail!
+                try
+                {
+                    string p_id = TablePlayers.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    Form2 f2 = new Form2("detail", p_id);
+                    f2.ShowDialog();
+                    refreshRows();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("You need to select a valid row", "", MessageBoxButtons.OK);
+                    return;
+                }
             }
             else if (e.ColumnIndex == TablePlayers.Columns["col_del"].Index)
             {
-                if (DialogResult.Yes == MessageBox.Show("Do you want to delete the row?", "", MessageBoxButtons.YesNo))
+                try
                 {
-                    //delete it!     
+                    if (DialogResult.Yes == MessageBox.Show("Do you want to delete the row?", "", MessageBoxButtons.YesNo))
+                    {
+                        //delete it!     
+                        string p_id = TablePlayers.Rows[e.RowIndex].Cells[0].Value.ToString();
+                        PersonTable.Delete(Int32.Parse(p_id));
+                        refreshRows();
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("You need to select a valid row", "", MessageBoxButtons.OK);
+                    return;
+                }
+            
+            }
+            else if (e.ColumnIndex == TablePlayers.Columns["col_ed"].Index)
+            {
+                try {    
                     string p_id = TablePlayers.Rows[e.RowIndex].Cells[0].Value.ToString();
-                    PersonTable.Delete(Int32.Parse(p_id));
+                    Form2 f2 = new Form2("edit", p_id);
+                    f2.ShowDialog();
                     refreshRows();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("You need to select a valid row", "", MessageBoxButtons.OK);
+                    return;
                 }
             }
         }
 
         private void addPlayerButton_Click(object sender, EventArgs e)
         {
-            Form2 f = new Form2(true);
+            Form2 f = new Form2("add");
             f.ShowDialog();
             refreshRows();
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            var attr = searchBox.Text.ToString();
+
+            var result = PersonTable.SelectByParameter(attr);
+            refreshRows(result);
+
         }
     }
 }

@@ -22,7 +22,8 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         public static String SQL_SELECT_PAR = "SELECT * FROM Person WHERE Last_Name=:lname";
         public static String SQL_SELECT_TEAMMATES = "SELECT * FROM Person WHERE Id!=:id AND Team_Id=:tID";
         public static String SQL_UPDATE_GAME = "UPDATE Person SET GAME_ID=:game WHERE TEAM_ID=:team";
-
+        public static String SQL_SELECT_SEARCH = "SELECT * from Person WHERE First_Name LIKE :attr OR Last_Name LIKE :attr";
+        
 
         private static void PrepareCommand(OracleCommand command, Person p)
         {
@@ -255,7 +256,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             return Users;
         }
 
-        public static Collection<Person> SelectByParameter(string lname = null, DatabaseT pDb = null)
+        public static Collection<Person> SelectByParameter(string attr = null, DatabaseT pDb = null)
         {
             DatabaseT db;
             if (pDb == null)
@@ -268,8 +269,10 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_PAR);
-            command.Parameters.AddWithValue(":lname", lname);
+            OracleCommand command = db.CreateCommand(SQL_SELECT_SEARCH);
+
+            attr = "%" + attr + "%";
+            command.Parameters.AddWithValue(":attr", attr);
             OracleDataReader reader = db.Select(command);
 
             Collection <Person> Users = Read(reader);

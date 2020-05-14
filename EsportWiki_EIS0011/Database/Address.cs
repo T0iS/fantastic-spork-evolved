@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EsportWiki_EIS0011.Database
 {
-    class Address
+    public class Address
     {
         public int Id { get; set; }
         public string Street { get; set; }
