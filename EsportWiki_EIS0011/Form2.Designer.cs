@@ -39,15 +39,15 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.TeamList = new System.Windows.Forms.ListBox();
             this.TransferButton = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.listBox2 = new System.Windows.Forms.ListBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.listBox3 = new System.Windows.Forms.ListBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.comboBoxRole = new System.Windows.Forms.ComboBox();
+            this.comboBoxGame = new System.Windows.Forms.ComboBox();
+            this.comboBoxTeam = new System.Windows.Forms.ComboBox();
+            this.comboBoxTransfer = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // Player_add_edit
@@ -151,16 +151,6 @@
             this.label7.TabIndex = 14;
             this.label7.Text = "Team";
             // 
-            // TeamList
-            // 
-            this.TeamList.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TeamList.FormattingEnabled = true;
-            this.TeamList.ItemHeight = 15;
-            this.TeamList.Location = new System.Drawing.Point(387, 215);
-            this.TeamList.Name = "TeamList";
-            this.TeamList.Size = new System.Drawing.Size(99, 19);
-            this.TeamList.TabIndex = 15;
-            // 
             // TransferButton
             // 
             this.TransferButton.BackColor = System.Drawing.Color.Yellow;
@@ -176,14 +166,6 @@
             this.TransferButton.UseVisualStyleBackColor = false;
             this.TransferButton.Click += new System.EventHandler(this.TransferButton_Click);
             // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(303, 139);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(101, 17);
-            this.listBox1.TabIndex = 17;
-            // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.Silver;
@@ -198,14 +180,6 @@
             this.button1.Text = "Edit";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // listBox2
-            // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(303, 174);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(101, 17);
-            this.listBox2.TabIndex = 19;
             // 
             // textBox3
             // 
@@ -229,14 +203,6 @@
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // listBox3
-            // 
-            this.listBox3.FormattingEnabled = true;
-            this.listBox3.Location = new System.Drawing.Point(303, 108);
-            this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(101, 17);
-            this.listBox3.TabIndex = 22;
-            // 
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -250,21 +216,59 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // comboBoxRole
+            // 
+            this.comboBoxRole.FormattingEnabled = true;
+            this.comboBoxRole.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.comboBoxRole.Location = new System.Drawing.Point(306, 107);
+            this.comboBoxRole.Name = "comboBoxRole";
+            this.comboBoxRole.Size = new System.Drawing.Size(100, 21);
+            this.comboBoxRole.TabIndex = 24;
+            this.comboBoxRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRole.SelectedIndexChanged += new System.EventHandler(this.comboBoxRole_SelectedIndexChanged);
+            // 
+            // comboBoxGame
+            // 
+            this.comboBoxGame.FormattingEnabled = true;
+            this.comboBoxGame.Location = new System.Drawing.Point(306, 138);
+            this.comboBoxGame.Name = "comboBoxGame";
+            this.comboBoxGame.Size = new System.Drawing.Size(100, 21);
+            this.comboBoxGame.TabIndex = 25;
+            this.comboBoxGame.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            // 
+            // comboBoxTeam
+            // 
+            this.comboBoxTeam.FormattingEnabled = true;
+            this.comboBoxTeam.Location = new System.Drawing.Point(306, 172);
+            this.comboBoxTeam.Name = "comboBoxTeam";
+            this.comboBoxTeam.Size = new System.Drawing.Size(100, 21);
+            this.comboBoxTeam.TabIndex = 26;
+            this.comboBoxTeam.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            // 
+            // comboBoxTransfer
+            // 
+            this.comboBoxTransfer.FormattingEnabled = true;
+            this.comboBoxTransfer.Location = new System.Drawing.Point(387, 221);
+            this.comboBoxTransfer.Name = "comboBoxTransfer";
+            this.comboBoxTransfer.Size = new System.Drawing.Size(99, 21);
+            this.comboBoxTransfer.TabIndex = 27;
+            this.comboBoxTransfer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(498, 291);
+            this.Controls.Add(this.comboBoxTransfer);
+            this.Controls.Add(this.comboBoxTeam);
+            this.Controls.Add(this.comboBoxGame);
+            this.Controls.Add(this.comboBoxRole);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.listBox3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.listBox2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.TransferButton);
-            this.Controls.Add(this.TeamList);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -296,14 +300,14 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ListBox TeamList;
         private System.Windows.Forms.Button TransferButton;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ListBox listBox3;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ComboBox comboBoxGame;
+        private System.Windows.Forms.ComboBox comboBoxTeam;
+        private System.Windows.Forms.ComboBox comboBoxTransfer;
+        private System.Windows.Forms.ComboBox comboBoxRole;
     }
 }

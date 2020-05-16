@@ -14,7 +14,7 @@ namespace EsportWiki_EIS0011
 {
     public partial class Form2 : Form
     {
-        private string[] role = { " ", "Player", "Coach", "Manager"};
+        private string[] role = {"Player", "Coach", "Manager"};
 
         public Form2(string b, string p_id = "")
         {
@@ -30,30 +30,34 @@ namespace EsportWiki_EIS0011
                 textBox3.Visible = false;
                 button3.Visible = false;
                 TransferButton.Visible = false;
-                TeamList.Visible = false;
+                comboBoxTransfer.Visible = false;
 
                 foreach (var r in role)
                 {
-                    listBox3.Items.Add(r);
+                    comboBoxRole.Items.Add(r);
                 }
-                listBox3.SelectedIndex = -1;
+                comboBoxRole.SelectedIndex = -1;
 
-                listBox1.Items.Add(" ");
+               
                 var games = GameTable.Select();
                 foreach (Game g in games)
                 {
-                    listBox1.Items.Add(g.Name);
+                    comboBoxGame.Items.Add(g.Name);
                 }
-                listBox1.SelectedIndex = -1;
+                comboBoxGame.SelectedIndex = -1;
 
-                listBox2.Items.Add(" ");
+
                 var teams = TeamTable.Select();
                 foreach (Team t in teams)
                 {
-                    TeamList.Items.Add(t.Name);
-                    listBox2.Items.Add(t.Name);
+                    comboBoxTeam.Items.Add(t.Name);
+                    comboBoxTransfer.Items.Add(t.Name);
                 }
-                listBox2.SelectedIndex = -1;
+                comboBoxTeam.SelectedIndex = -1;
+                comboBoxTransfer.SelectedIndex = -1;
+
+
+                
 
             }
             if (b == "detail" )
@@ -78,39 +82,38 @@ namespace EsportWiki_EIS0011
                 button2.Visible = false;
                 button1.Visible = false;
                 TransferButton.Visible = false;
-                TeamList.Visible = false;
+                comboBoxTransfer.Visible = false;
                 
                 button3.Visible = true;
 
                 int idx = 0;
+                
                 foreach (var r in role)
                 {
-                    listBox3.Items.Add(r);
-                    if(p.Role == r)
-                    {
-                        listBox3.SelectedIndex = idx;
+                    comboBoxRole.Items.Add(r);
+                    if (p.Role == r)
+                    {   
+                        comboBoxRole.SelectedIndex = idx;
                     }
                     idx++;
                 }
-                //listBox3.SelectedIndex = 0;
 
-
-                //listBox1.Items.Add(" ");
                 var games = GameTable.Select();
-                foreach (Game g in games) {
-                    listBox1.Items.Add(g.Name);
-                }
-                listBox1.SelectedIndex = p.Game_Id.Id-1;
-
-                //listBox2.Items.Add(" ");
-                var teams = TeamTable.Select();
-                foreach( Team t in teams)
+                foreach (Game g in games)
                 {
-                    TeamList.Items.Add(t.Name);
-                    listBox2.Items.Add(t.Name);
+                    comboBoxGame.Items.Add(g.Name);
                 }
-                listBox2.SelectedIndex = p.Team_Id.Id-1;
-                
+                comboBoxGame.SelectedIndex = p.Game_Id.Id-1;
+
+
+                var teams = TeamTable.Select();
+                foreach (Team t in teams)
+                {
+                    comboBoxTeam.Items.Add(t.Name);
+                    comboBoxTransfer.Items.Add(t.Name);
+                }
+                comboBoxTeam.SelectedIndex = p.Team_Id.Id - 1;
+
             }
             if (b == "edit")
             {
@@ -135,36 +138,34 @@ namespace EsportWiki_EIS0011
                 button2.Visible = false;
                 button1.Visible = true;
                 TransferButton.Visible = true;
-                TeamList.Visible = true;
+                comboBoxTransfer.Visible = true;
 
                 int idx = 0;
                 foreach (var r in role)
                 {
-                    listBox3.Items.Add(r);
+                    comboBoxRole.Items.Add(r);
                     if (p.Role == r)
                     {
-                        listBox3.SelectedIndex = idx;
+                        comboBoxRole.SelectedIndex = idx;
                     }
                     idx++;
                 }
 
-
-
                 var games = GameTable.Select();
                 foreach (Game g in games)
                 {
-                    listBox1.Items.Add(g.Name);
+                    comboBoxGame.Items.Add(g.Name);
                 }
-                listBox1.SelectedIndex = p.Game_Id.Id - 1;
+                comboBoxGame.SelectedIndex = p.Game_Id.Id - 1;
+
 
                 var teams = TeamTable.Select();
-                TeamList.Items.Add(" ");
                 foreach (Team t in teams)
                 {
-                    TeamList.Items.Add(t.Name);
-                    listBox2.Items.Add(t.Name);
+                    comboBoxTeam.Items.Add(t.Name);
+                    comboBoxTransfer.Items.Add(t.Name);
                 }
-                listBox2.SelectedIndex = p.Team_Id.Id - 1;
+                comboBoxTeam.SelectedIndex = p.Team_Id.Id - 1;
             }
             
         }
@@ -173,12 +174,12 @@ namespace EsportWiki_EIS0011
         {
             //transfer
             int p_id = Int32.Parse(textBox3.Text);
-            if (TeamList.SelectedIndex == -1 || TeamList.SelectedIndex == 0)
+            if (comboBoxTransfer.SelectedIndex == -1 )
             {
-                MessageBox.Show("TEAM FOR TRANSFER MUST BE CHOSEN!\nClick on the team to chose it\nThe team name must be in blue in order to be chosen sucessfully\n", "", MessageBoxButtons.OK);
+                MessageBox.Show("TEAM FOR TRANSFER MUST BE CHOSEN!\nClick on the team to chose it\n", "", MessageBoxButtons.OK);
                 return;
             }
-            int p_team = TeamList.SelectedIndex;
+            int p_team = comboBoxTransfer.SelectedIndex+1;
 
             PersonTable.Prestup(p_id, p_team);
             this.Close();
@@ -192,18 +193,20 @@ namespace EsportWiki_EIS0011
             {
                 //edit player
                 Person p = new Person();
+                
                 try
                 {
+                    
                     p.Id = Int32.Parse(textBox3.Text);
                     p.First_Name = textBox1.Text;
                     p.Last_Name = textBox5.Text;
                     p.Birth_Date = Int32.Parse(textBox4.Text);
-                    if (listBox3.SelectedIndex == -1 || listBox3.SelectedIndex == 0)
+                    if (comboBoxRole.SelectedIndex == -1 )
                     {
-                        MessageBox.Show("ROLE MUST BE CHOSEN!\nClick on the role to chose it\nThe role name must be in blue in order to be chosen sucessfully\n", "", MessageBoxButtons.OK);
+                        MessageBox.Show("ROLE MUST BE CHOSEN!\nClick on the role to chose it\n", "", MessageBoxButtons.OK);
                         return;
                     }
-                    p.Role = listBox3.Items[listBox3.SelectedIndex].ToString();
+                    p.Role = comboBoxRole.Items[comboBoxRole.SelectedIndex].ToString();
                     if (p.First_Name.Length > 30 || p.Last_Name.Length > 30 || p.Birth_Date > 2300 || p.Birth_Date < 1800)
                     {
                         throw new Exception();
@@ -215,19 +218,19 @@ namespace EsportWiki_EIS0011
                     return;
                 }
                 Team t = new Team();
-                t.Id = listBox2.SelectedIndex + 1;
+                t.Id = comboBoxTeam.SelectedIndex + 1;
                 if (t.Id == 0)
                 {
-                    MessageBox.Show("TEAM NOT CHOSEN!\nClick on the team name to chose it\nThe team name must be in blue in order to be chosen sucessfully\n", "", MessageBoxButtons.OK);
+                    MessageBox.Show("TEAM NOT CHOSEN!\nClick on the team name to chose it\n", "", MessageBoxButtons.OK);
                     return;
                 }
                 p.Team_Id = t;
 
                 Game g = new Game();
-                g.Id = listBox1.SelectedIndex + 1;
+                g.Id = comboBoxGame.SelectedIndex + 1;
                 if (g.Id == 0)
                 {
-                    MessageBox.Show("GAME NOT CHOSEN!\nClick on the game name to chose it\nThe game name must be in blue in order to be chosen sucessfully\n", "", MessageBoxButtons.OK);
+                    MessageBox.Show("GAME NOT CHOSEN!\nClick on the game name to chose it\n", "", MessageBoxButtons.OK);
                     return;
                 }
                 p.Game_Id = g;
@@ -247,16 +250,16 @@ namespace EsportWiki_EIS0011
                 var tmp = PersonTable.Select();
                 try
                 {
-                    p.Id = tmp[tmp.Count - 1].Id + 1;
+                    p.Id = tmp.Count + 1;
                     p.First_Name = textBox1.Text;
                     p.Last_Name = textBox5.Text;
                     p.Birth_Date = Int32.Parse(textBox4.Text);
-                    if (listBox3.SelectedIndex == -1 || listBox3.SelectedIndex == 0)
+                    if (comboBoxRole.SelectedIndex == -1 )
                     {
                         MessageBox.Show("ROLE MUST BE CHOSEN!\nClick on the role to chose it\nThe role name must be in blue in order to be chosen sucessfully\n", "", MessageBoxButtons.OK);
                         return;
                     }
-                    p.Role = listBox3.Items[listBox3.SelectedIndex].ToString();
+                    p.Role = comboBoxRole.Items[comboBoxRole.SelectedIndex].ToString();
                    
 
                     if (p.First_Name.Length>30 || p.Last_Name.Length > 30 || p.Birth_Date > 2300 || p.Birth_Date < 1800)
@@ -273,26 +276,26 @@ namespace EsportWiki_EIS0011
                 
                 
                 
-                if (listBox2.SelectedIndex == -1 || listBox2.SelectedIndex == 0)
+                if (comboBoxTeam.SelectedIndex == -1)
                 {
                     
-                    MessageBox.Show("TEAM NOT CHOSEN!\nClick on the team name to chose it\nThe team name must be in blue in order to be chosen sucessfully\n", "", MessageBoxButtons.OK);
+                    MessageBox.Show("TEAM NOT CHOSEN!\nClick on the team name to chose it\n", "", MessageBoxButtons.OK);
                     return;
                 }
                 Team t = new Team();
-                t.Id = listBox2.SelectedIndex;
+                t.Id = comboBoxTeam.SelectedIndex+1;
                 p.Team_Id = t;
 
                 
                 
-                if (listBox1.SelectedIndex == -1 || listBox1.SelectedIndex == 0)
+                if (comboBoxGame.SelectedIndex == -1)
                 {
                     
-                    MessageBox.Show("GAME NOT CHOSEN!\nClick on the game name to chose it\nThe game name must be in blue in order to be chosen sucessfully\n", "", MessageBoxButtons.OK);
+                    MessageBox.Show("GAME NOT CHOSEN!\nClick on the game name to chose it\n", "", MessageBoxButtons.OK);
                     return;
                 }
                 Game g = new Game();
-                g.Id = listBox1.SelectedIndex;
+                g.Id = comboBoxGame.SelectedIndex+1;
                 p.Game_Id = g; 
 
                 PersonTable.Insert(p);
@@ -314,7 +317,10 @@ namespace EsportWiki_EIS0011
             textBox5.ReadOnly = b;
             textBox4.ReadOnly = b;
             textBox3.ReadOnly = b;
-            
+            comboBoxRole.Enabled = !b;
+            comboBoxTeam.Enabled = !b;
+            comboBoxGame.Enabled = !b;
+
             
         }
 
@@ -325,6 +331,15 @@ namespace EsportWiki_EIS0011
             button2.Visible = false;
             button1.Visible = true;
             
+        }
+
+
+
+        private void comboBoxRole_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+           
+
         }
     }
 }

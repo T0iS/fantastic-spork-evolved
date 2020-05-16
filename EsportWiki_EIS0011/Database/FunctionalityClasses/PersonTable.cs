@@ -96,10 +96,21 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
+            db.BeginTransaction();
+            Person prv = SelectOne(p.Id);
+            if (p.Role != "Coach" && prv.Role == "Coach")
+            {
+                Team ot = TeamTable.SelectOne(p.Team_Id.Id);
+                ot.Person_Id = null;
+                TeamTable.Update(ot);
+            }
+
+
             OracleCommand command = db.CreateCommand(SQL_UPDATE);
             PrepareCommand(command, p);
-            
-            int ret = db.ExecuteNonQuery(command);
+           
+            int ret = db.ExecuteNonQuery2(command);
+            db.EndTransaction();
             db.Close();
             return ret;
         }
@@ -191,6 +202,15 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             DatabaseT db = new DatabaseT();
             db.Connect();
             OracleCommand command = db.CreateCommand(SQL_DELETE_ID);
+
+            Person p = PersonTable.SelectOne(id);
+            if (p.Role == "Coach")
+            {
+                Team ot = TeamTable.SelectOne(p.Team_Id.Id);
+                ot.Person_Id = null;
+                TeamTable.Update(ot);
+
+            }
 
             command.Parameters.AddWithValue(":id", id);
             int ret = db.ExecuteNonQuery(command);
