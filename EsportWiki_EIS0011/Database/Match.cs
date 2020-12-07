@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EsportWiki_EIS0011.Database
+namespace DataLayer.Database
 {
-    class Match
+    public class Match
     {
         public int Id { get; set; }
         public int MNUM { get; set; }

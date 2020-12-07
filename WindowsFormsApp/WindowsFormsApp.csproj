@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{54887DE3-24A1-44CF-B68B-D148C85CC56E}</ProjectGuid>
+    <ProjectGuid>{E5016EF7-E104-4C69-9977-A5D0865C154F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>EsportWiki_EIS0011</RootNamespace>
-    <AssemblyName>EsportWiki_EIS0011</AssemblyName>
+    <RootNamespace>WindowsFormsApp</RootNamespace>
+    <AssemblyName>WindowsFormsApp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,11 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.19.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,26 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\Address.cs" />
-    <Compile Include="Database\Event.cs" />
-    <Compile Include="Database\FunctionalityClasses\AddressTable.cs" />
-    <Compile Include="Database\FunctionalityClasses\DatabaseT.cs" />
-    <Compile Include="Database\FunctionalityClasses\EventTable.cs" />
-    <Compile Include="Database\FunctionalityClasses\Extensions.cs" />
-    <Compile Include="Database\FunctionalityClasses\GameTable.cs" />
-    <Compile Include="Database\FunctionalityClasses\MatchTable.cs" />
-    <Compile Include="Database\FunctionalityClasses\Match_teamTable.cs" />
-    <Compile Include="Database\FunctionalityClasses\OrganisationTable.cs" />
-    <Compile Include="Database\FunctionalityClasses\PersonTable.cs" />
-    <Compile Include="Database\FunctionalityClasses\System_userTable.cs" />
-    <Compile Include="Database\FunctionalityClasses\TeamTable.cs" />
-    <Compile Include="Database\Game.cs" />
-    <Compile Include="Database\Match.cs" />
-    <Compile Include="Database\Match_team.cs" />
-    <Compile Include="Database\Organisation.cs" />
-    <Compile Include="Database\Person.cs" />
-    <Compile Include="Database\System_user.cs" />
-    <Compile Include="Database\Team.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +96,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EsportWiki_EIS0011\DataLayer.csproj">
+      <Project>{54887DE3-24A1-44CF-B68B-D148C85CC56E}</Project>
+      <Name>DataLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EsportWiki_EIS0011.Database
+namespace DataLayer.Database
 {
     public class Person
     {

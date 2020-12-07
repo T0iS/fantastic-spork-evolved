@@ -1,0 +1,11 @@
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\DataLayer.csprojAssemblyReference.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\DataLayer.csproj.GenerateResource.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\DataLayer.csproj.CoreCompileInputs.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\DataLayer.csproj.CopyComplete
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\DataLayer.dll.config
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\DataLayer.dll
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\DataLayer.pdb
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\DataLayer.Properties.Resources.resources
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\DataLayer.dll
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\DataLayer.pdb

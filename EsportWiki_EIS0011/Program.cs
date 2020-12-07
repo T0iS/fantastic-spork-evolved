@@ -17,23 +17,23 @@ namespace EsportWiki_EIS0011
         [STAThread]
         static void Main()
         {
-             Application.EnableVisualStyles();
-             Application.SetCompatibleTextRenderingDefault(false);
-             Application.Run(new Form1());
+            // Application.EnableVisualStyles();
+            // Application.SetCompatibleTextRenderingDefault(false);
+            // Application.Run(new Form1());
 
 
             DatabaseT db = new DatabaseT();
             db.Connect();
 
            
-            /*
+            
 
 
             Console.WriteLine(" ------------------------------------- 1. Evidence hracu ------------------------------------- ");
 
             Console.WriteLine("1.a) Zaregistrovani noveho hrace");
             Person p = new Person();
-            p.Id = 66;
+            p.Id = 6111;
             p.First_Name = "John";
             p.Last_Name = "Test";
             p.Birth_Date = 2001;
@@ -41,6 +41,7 @@ namespace EsportWiki_EIS0011
            
             p.Game_Id = GameTable.SelectOne(2, db);
             p.Team_Id = TeamTable.SelectOne(3, db);
+           
 
             Console.WriteLine("Pridano "+ PersonTable.Insert(p, db)+" zaznamu");
 

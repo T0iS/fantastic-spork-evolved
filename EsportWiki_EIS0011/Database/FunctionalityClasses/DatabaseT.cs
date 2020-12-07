@@ -10,17 +10,21 @@ using System.Data.SqlClient;
 using Oracle.ManagedDataAccess.Client;
 
 
-namespace EsportWiki_EIS0011.Database.FunctionalityClasses
+namespace DataLayer.Database.FunctionalityClasses
 {
     public class DatabaseT
     {
-        private OracleConnection Connection { get; set; }
-        private OracleTransaction SqlTransaction { get; set; }
+        private SqlConnection Connection { get; set; }
+        private SqlTransaction SqlTransaction = null;
         public string Language { get; set; }
+
+        private static String CONNECTION_STRING = "server=dbsys.cs.vsb.cz\\STUDENT;database=eis0011;user=eis0011;password=pO54vRpOCg;";
+        //private static String CONNECTION_STRING = "Server=DESKTOP-Q2RMHN0\\SQLEXPRESS;Integrated Security=TRUE;Trusted_Connection=YES;Database=DPO";
+
 
         public DatabaseT()
         {
-            Connection = new OracleConnection();
+            Connection = new SqlConnection();
             Language = "en";
         }
 
@@ -46,7 +50,8 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
 
             if (Connection.State != System.Data.ConnectionState.Open)
             {
-                ret = Connect(ConfigurationManager.ConnectionStrings["ConnectionStringOracle"].ConnectionString);
+                //ret = Connect(ConfigurationManager.ConnectionStrings["ConnectionStringOracle"].ConnectionString);
+                ret = Connect(CONNECTION_STRING);
             }
 
             return ret;
@@ -89,7 +94,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         /// <summary>
         /// Insert a record encapulated in the command.
         /// </summary>
-        public int ExecuteNonQuery(OracleCommand command)
+        public int ExecuteNonQuery(SqlCommand command)
         {
             int rowNumber = 0;
             try
@@ -107,27 +112,12 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             return rowNumber;
         }
 
-        public int ExecuteNonQuery2(OracleCommand command)
-        {
-            int rowNumber = 0;
-            try
-            {
-                rowNumber = command.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            
-            return rowNumber;
-        }
-
         /// <summary>
         /// Create command.
         /// </summary>
-        public OracleCommand CreateCommand(string strCommand)
+        public SqlCommand CreateCommand(string strCommand)
         {
-            OracleCommand command = new OracleCommand(strCommand, Connection);
+            SqlCommand command = new SqlCommand(strCommand, Connection);
 
             if (SqlTransaction != null)
             {
@@ -138,11 +128,12 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         /// <summary>
         /// Select encapulated in the command.
         /// </summary>
-        public OracleDataReader Select(OracleCommand command)
+        public SqlDataReader Select(SqlCommand command)
         {
-            //command.Prepare();
-            OracleDataReader sqlReader = command.ExecuteReader();
+            command.Prepare();
+            SqlDataReader sqlReader = command.ExecuteReader();
             return sqlReader;
         }
+
     }
 }

@@ -5,34 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Oracle.ManagedDataAccess.Client;
+using System.Data.SqlClient;
 
-
-namespace EsportWiki_EIS0011.Database.FunctionalityClasses
+namespace DataLayer.Database.FunctionalityClasses
 {
-    class OrganisationTable
+    public class OrganisationTable
     {
         public static String SQL_INSERT = "INSERT INTO Organisation (Id, Name, Person_Id, Address_Id) VALUES " +
-                "(:id, :name, :pID, :aID)";
-        public static String SQL_UPDATE = "UPDATE Organisation SET Name=:name, Address_Id=:aID WHERE Id=:id";
-        public static String SQL_UPDATE_MAN = "UPDATE Organisation SET Person_Id=:pID WHERE Id=:id";
-        public static String SQL_SELECT_TEAM_COUNT = "SELECT count(Id) from Team WHERE organisation_id=:oID";
-        public static String SQL_SELECT_TEAM_COUNT_gamePAR = "SELECT count(Id) from Team WHERE organisation_id=:oID AND Game_Id=:gID";
-        public static String SQL_SELECT_ONE = "SELECT * from Organisation WHERE Id=:oID";
-        public static String SQL_SELECT_P = "SELECT * from Person JOIN Team on Team.Id = Person.Team_Id WHERE Team.Organisation_Id = :id";
-        public static String SQL_DELETE_ID = "DELETE FROM Organisation WHERE Id =:id";
+                "(@id, @name, @pID, @aID)";
+        public static String SQL_UPDATE = "UPDATE Organisation SET Name=@name, Address_Id=@aID WHERE Id=@id";
+        public static String SQL_UPDATE_MAN = "UPDATE Organisation SET Person_Id=@pID WHERE Id=@id";
+        public static String SQL_SELECT_TEAM_COUNT = "SELECT count(Id) from Team WHERE organisation_id=@oID";
+        public static String SQL_SELECT_TEAM_COUNT_gamePAR = "SELECT count(Id) from Team WHERE organisation_id=@oID AND Game_Id=@gID";
+        public static String SQL_SELECT_ONE = "SELECT * from Organisation WHERE Id=@oID";
+        public static String SQL_SELECT_P = "SELECT * from Person JOIN Team on Team.Id = Person.Team_Id WHERE Team.Organisation_Id = @id";
+        public static String SQL_DELETE_ID = "DELETE FROM Organisation WHERE Id =@id";
 
-        private static void PrepareCommand(OracleCommand command, Organisation o)
+        private static void PrepareCommand(SqlCommand command, Organisation o)
         {
-            command.BindByName = true;
-            command.Parameters.AddWithValue(":id", o.Id);
-            command.Parameters.AddWithValue(":name", o.Name);
-            command.Parameters.AddWithValue(":pID", o.Person_Id.Id);
-            command.Parameters.AddWithValue(":aID", o.Address_Id.Id);
+            
+            command.Parameters.AddWithValue("@id", o.Id);
+            command.Parameters.AddWithValue("@name", o.Name);
+            command.Parameters.AddWithValue("@pID", o.Person_Id.Id);
+            command.Parameters.AddWithValue("@aID", o.Address_Id.Id);
            
 
         }
 
-        private static Collection<Person> ReadP(OracleDataReader reader)
+        private static Collection<Person> ReadP(SqlDataReader reader)
         {
             Collection<Person> People = new Collection<Person>();
 
@@ -64,7 +64,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             return People;
         }
     
-        private static Collection<Organisation> Read(OracleDataReader reader)
+        private static Collection<Organisation> Read(SqlDataReader reader)
         {
             Collection<Organisation> Organisations = new Collection<Organisation>();
 
@@ -94,7 +94,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         }
         
 
-        private static int ReadCount(OracleDataReader reader)
+        private static int ReadCount(SqlDataReader reader)
         {
             int res = 0;
 
@@ -112,7 +112,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_INSERT);
+            SqlCommand command = db.CreateCommand(SQL_INSERT);
             PrepareCommand(command, o);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
@@ -123,9 +123,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_DELETE_ID);
+            SqlCommand command = db.CreateCommand(SQL_DELETE_ID);
 
-            command.Parameters.AddWithValue(":id", id);
+            command.Parameters.AddWithValue("@id", id);
             int ret = db.ExecuteNonQuery(command);
 
             db.Close();
@@ -137,7 +137,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_UPDATE);
+            SqlCommand command = db.CreateCommand(SQL_UPDATE);
             PrepareCommand(command, o);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
@@ -197,9 +197,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             }
 
 
-            OracleCommand command = db.CreateCommand(SQL_UPDATE_MAN);
+            SqlCommand command = db.CreateCommand(SQL_UPDATE_MAN);
             PrepareCommand(command, o);
-            int ret = db.ExecuteNonQuery2(command);
+            int ret = db.ExecuteNonQuery(command);
             db.EndTransaction();
             db.Close();
             return ret;
@@ -221,9 +221,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_P);
-            command.Parameters.AddWithValue(":id", oID);
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_P);
+            command.Parameters.AddWithValue("@id", oID);
+            SqlDataReader reader = db.Select(command);
 
             Collection<Person> Users = ReadP(reader);
             reader.Close();
@@ -249,9 +249,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_TEAM_COUNT);
-            command.Parameters.AddWithValue(":oID", oID);
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_TEAM_COUNT);
+            command.Parameters.AddWithValue("@oID", oID);
+            SqlDataReader reader = db.Select(command);
 
             int res = ReadCount(reader);
             reader.Close();
@@ -278,10 +278,10 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_TEAM_COUNT_gamePAR);
-            command.Parameters.AddWithValue(":oID", oID);
-            command.Parameters.AddWithValue(":gID", gID);
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_TEAM_COUNT_gamePAR);
+            command.Parameters.AddWithValue("@oID", oID);
+            command.Parameters.AddWithValue("@gID", gID);
+            SqlDataReader reader = db.Select(command);
 
             int res = ReadCount(reader);
             reader.Close();
@@ -310,9 +310,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_ONE);
-            command.Parameters.AddWithValue(":id", pID);
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_ONE);
+            command.Parameters.AddWithValue("@id", pID);
+            SqlDataReader reader = db.Select(command);
 
             Organisation Users = Read(reader).First();
             reader.Close();

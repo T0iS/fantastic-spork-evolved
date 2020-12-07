@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EsportWiki_EIS0011.Database
+namespace DataLayer.Database
 {
-    class Event
+    public class Event
     {
         public int Id { get; set; }
         public string Name { get; set; }

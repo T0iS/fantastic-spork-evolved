@@ -18,7 +18,7 @@ namespace EsportWiki_EIS0011
         public Form1()
         {
             InitializeComponent();
-            refreshRows();
+            //refreshRows();
         }
 
         public void refreshRows(Collection<Person> pl = null)

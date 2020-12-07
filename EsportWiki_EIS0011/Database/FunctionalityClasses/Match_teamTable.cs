@@ -5,22 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Oracle.ManagedDataAccess.Client;
+using System.Data.SqlClient;
 
-
-namespace EsportWiki_EIS0011.Database.FunctionalityClasses
+namespace DataLayer.Database.FunctionalityClasses
 {
-    class Match_teamTable
+    public class Match_teamTable
     {
-        public static String SQL_INSERT = "INSERT INTO Match_team (Match_Id, Team_Id) VALUES :id, :team";
-        public static String SQL_DELETE_ID = "DELETE FROM Event WHERE Match_Id=:id";
+        public static String SQL_INSERT = "INSERT INTO Match_team (Match_Id, Team_Id) VALUES @id, @team";
+        public static String SQL_DELETE_ID = "DELETE FROM Event WHERE Match_Id=@id";
         
 
 
-        private static void PrepareCommand(OracleCommand command, Match_team m)
+        private static void PrepareCommand(SqlCommand command, Match_team m)
         {
-            command.BindByName = true;
-            command.Parameters.AddWithValue(":id", m.Match_Id);
-            command.Parameters.AddWithValue(":team", m.Team_Id);
+            
+            command.Parameters.AddWithValue("@id", m.Match_Id);
+            command.Parameters.AddWithValue("@team", m.Team_Id);
         }
         
 
@@ -28,7 +28,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_INSERT);
+            SqlCommand command = db.CreateCommand(SQL_INSERT);
             PrepareCommand(command, m);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
@@ -40,9 +40,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_DELETE_ID);
+            SqlCommand command = db.CreateCommand(SQL_DELETE_ID);
 
-            command.Parameters.AddWithValue(":id", id);
+            command.Parameters.AddWithValue("@id", id);
             int ret = db.ExecuteNonQuery(command);
 
             db.Close();

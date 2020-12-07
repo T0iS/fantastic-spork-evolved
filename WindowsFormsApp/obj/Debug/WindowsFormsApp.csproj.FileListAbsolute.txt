@@ -1,0 +1,16 @@
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\obj\Debug\WindowsFormsApp.csprojAssemblyReference.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\obj\Debug\WindowsFormsApp.Form1.resources
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\obj\Debug\WindowsFormsApp.Form2.resources
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\obj\Debug\WindowsFormsApp.Form3.resources
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\obj\Debug\WindowsFormsApp.Properties.Resources.resources
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\obj\Debug\WindowsFormsApp.csproj.GenerateResource.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\obj\Debug\WindowsFormsApp.csproj.CoreCompileInputs.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\bin\Debug\WindowsFormsApp.exe.config
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\bin\Debug\WindowsFormsApp.exe
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\bin\Debug\WindowsFormsApp.pdb
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\bin\Debug\DataLayer.dll
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\bin\Debug\DataLayer.pdb
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\bin\Debug\DataLayer.dll.config
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\obj\Debug\WindowsFormsApp.csproj.CopyComplete
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\obj\Debug\WindowsFormsApp.exe
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WindowsFormsApp\obj\Debug\WindowsFormsApp.pdb

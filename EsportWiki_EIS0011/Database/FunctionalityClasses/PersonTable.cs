@@ -5,49 +5,64 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Oracle.ManagedDataAccess.Client;
+using System.Data.SqlClient;
+using System.Data;
 
-namespace EsportWiki_EIS0011.Database.FunctionalityClasses
+namespace DataLayer.Database.FunctionalityClasses
 {
-    class PersonTable
+    public class PersonTable
     
     {
         public static String SQL_INSERT = "INSERT INTO Person (Id, First_Name, Last_Name, Birth_Date, Role, Game_Id, Team_Id) VALUES " +
-                "(:id, :fname, :lname, :birth, :role, :game_id, :team_id)";
-        public static String SQL_UPDATE = "UPDATE Person SET First_Name=:fname, Last_Name=:lname, Birth_Date=:birth," +
-            " Role=:role, Game_Id=:game_id, Team_Id=:team_id WHERE Id=:id";
-        public static String SQL_UPDATE_PRESTUP = "UPDATE Person SET Team_Id=:team_id WHERE Id=:id";
-        public static String SQL_DELETE_ID = "DELETE FROM Person WHERE Id=:id";
+                "(@id, @fname, @lname, @birth, @role, @game_id, @team_id)";
+        public static String SQL_UPDATE = "UPDATE Person SET First_Name=@fname, Last_Name=@lname, Birth_Date=@birth," +
+            " Role=@role, Game_Id=@game_id, Team_Id=@team_id WHERE Id=@id";
+        public static String SQL_UPDATE_PRESTUP = "UPDATE Person SET Team_Id=@team_id WHERE Id=@id";
+        public static String SQL_DELETE_ID = "DELETE FROM Person WHERE Id=@id";
         public static String SQL_SELECT = "SELECT * FROM Person";
-        public static String SQL_SELECT_ONE = "SELECT * FROM Person WHERE Id=:id";
-        public static String SQL_SELECT_PAR = "SELECT * FROM Person WHERE Last_Name=:lname";
-        public static String SQL_SELECT_TEAMMATES = "SELECT * FROM Person WHERE Id!=:id AND Team_Id=:tID";
-        public static String SQL_UPDATE_GAME = "UPDATE Person SET GAME_ID=:game WHERE TEAM_ID=:team";
-        public static String SQL_SELECT_SEARCH = "SELECT * from Person WHERE First_Name LIKE :attr OR Last_Name LIKE :attr";
+        public static String SQL_SELECT_ONE = "SELECT * FROM Person WHERE Id=@id";
+        public static String SQL_SELECT_PAR = "SELECT * FROM Person WHERE Last_Name=@lname";
+        public static String SQL_SELECT_TEAMMATES = "SELECT * FROM Person WHERE Id!=@id AND Team_Id=@tID";
+        public static String SQL_UPDATE_GAME = "UPDATE Person SET GAME_ID=@game WHERE TEAM_ID=@team";
+        public static String SQL_SELECT_SEARCH = "SELECT * from Person WHERE First_Name LIKE @attr OR Last_Name LIKE @attr";
         
 
-        private static void PrepareCommand(OracleCommand command, Person p)
+        private static void PrepareCommand(SqlCommand command, Person p)
         {
-            command.BindByName = true;
-            command.Parameters.AddWithValue(":id", p.Id);
-            command.Parameters.AddWithValue(":fname", p.First_Name);
-            command.Parameters.AddWithValue(":lname", p.Last_Name);
-            command.Parameters.AddWithValue(":birth", p.Birth_Date);
+            
+            
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+            command.Parameters["@id"].Value = p.Id;
+
+
+            command.Parameters.Add(new SqlParameter("@fname", SqlDbType.VarChar));
+            command.Parameters["@fname"].Value = p.First_Name;
+
+            
+            command.Parameters.Add(new SqlParameter("@lname", SqlDbType.VarChar));
+            command.Parameters["@lname"].Value = p.Last_Name;
+
+            
+            command.Parameters.Add(new SqlParameter("@birth", SqlDbType.Int));
+            command.Parameters["@birth"].Value = p.Birth_Date;
+
+
             if (p.Role == null)
             {
-                command.Parameters.AddWithValue(":role", " ");
+                command.Parameters.AddWithValue("@role", " ");
             }
             else
             {
-                command.Parameters.AddWithValue(":role", p.Role);
+                command.Parameters.AddWithValue("@role", p.Role);
             }
-            command.Parameters.AddWithValue(":game_id", p.Game_Id.Id);
-            command.Parameters.AddWithValue(":team_id", p.Team_Id.Id);
+            command.Parameters.AddWithValue("@game_id", p.Game_Id.Id);
+            command.Parameters.AddWithValue("@team_id", p.Team_Id.Id);
 
         }
 
-        private static Collection<Person> Read(OracleDataReader reader)
+        private static List<Person> Read(SqlDataReader reader)
         {
-            Collection<Person> People = new Collection<Person>();
+            List<Person> People = new List<Person>();
 
             while (reader.Read())
             {
@@ -84,7 +99,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_INSERT);
+            SqlCommand command = db.CreateCommand(SQL_INSERT);
             PrepareCommand(command, p);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
@@ -96,7 +111,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            db.BeginTransaction();
+            //db.BeginTransaction();
             Person prv = SelectOne(p.Id);
             if (p.Role != "Coach" && prv.Role == "Coach")
             {
@@ -106,22 +121,23 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             }
 
 
-            OracleCommand command = db.CreateCommand(SQL_UPDATE);
+            SqlCommand command = db.CreateCommand(SQL_UPDATE);
             PrepareCommand(command, p);
            
-            int ret = db.ExecuteNonQuery2(command);
-            db.EndTransaction();
+            int ret = db.ExecuteNonQuery(command);
             db.Close();
+            //db.EndTransaction();
+           
             return ret;
         }
         public static int UpdateGame(int tID, int gID, DatabaseT pDb = null)
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_UPDATE_GAME);
+            SqlCommand command = db.CreateCommand(SQL_UPDATE_GAME);
 
-            command.Parameters.AddWithValue(":team", gID);
-            command.Parameters.AddWithValue(":game", tID);
+            command.Parameters.AddWithValue("@team", gID);
+            command.Parameters.AddWithValue("@game", tID);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
             return ret;
@@ -181,11 +197,11 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 }
             }
 
-            OracleCommand command = db.CreateCommand(SQL_UPDATE_PRESTUP);
+            SqlCommand command = db.CreateCommand(SQL_UPDATE_PRESTUP);
             
-            command.Parameters.AddWithValue(":team_id", tID);
-            command.Parameters.AddWithValue(":id", pID);
-            int ret = db.ExecuteNonQuery2(command);
+            command.Parameters.AddWithValue("@team_id", tID);
+            command.Parameters.AddWithValue("@id", pID);
+            int ret = db.ExecuteNonQuery(command);
 
             command.Dispose();
             db.EndTransaction();
@@ -201,7 +217,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_DELETE_ID);
+            SqlCommand command = db.CreateCommand(SQL_DELETE_ID);
 
             Person p = PersonTable.SelectOne(id);
             if (p.Role == "Coach")
@@ -212,7 +228,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
 
             }
 
-            command.Parameters.AddWithValue(":id", id);
+            command.Parameters.AddWithValue("@id", id);
             int ret = db.ExecuteNonQuery(command);
 
             db.Close();
@@ -220,7 +236,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         }
 
 
-        public static Collection<Person> Select(DatabaseT pDb = null)
+        public static List<Person> Select(DatabaseT pDb = null)
         {
             DatabaseT db;
             if (pDb == null)
@@ -233,10 +249,10 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT);
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT);
+            SqlDataReader reader = db.Select(command);
 
-            Collection<Person> Users = Read(reader);
+            List<Person> Users = Read(reader);
             reader.Close();
 
             if (pDb == null)
@@ -261,9 +277,13 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_ONE);
-            command.Parameters.AddWithValue(":id", pID);
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_ONE);
+
+            
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+            command.Parameters["@id"].Value = pID;
+
+            SqlDataReader reader = db.Select(command);
 
             Person Users = Read(reader).First();
             reader.Close();
@@ -276,7 +296,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             return Users;
         }
 
-        public static Collection<Person> SelectByParameter(string attr = null, DatabaseT pDb = null)
+        public static List<Person> SelectByParameter(string attr = null, DatabaseT pDb = null)
         {
             DatabaseT db;
             if (pDb == null)
@@ -289,13 +309,13 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_SEARCH);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_SEARCH);
 
             attr = "%" + attr + "%";
-            command.Parameters.AddWithValue(":attr", attr);
-            OracleDataReader reader = db.Select(command);
+            command.Parameters.AddWithValue("@attr", attr);
+            SqlDataReader reader = db.Select(command);
 
-            Collection <Person> Users = Read(reader);
+            List <Person> Users = Read(reader);
             reader.Close();
 
             if (pDb == null)
@@ -306,7 +326,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             return Users;
         }
 
-        public static Collection<Person> SelectTeammates(int pID, DatabaseT pDb = null)
+        public static List<Person> SelectTeammates(int pID, DatabaseT pDb = null)
         {
             DatabaseT db;
             if (pDb == null)
@@ -322,13 +342,13 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             Person tmp = SelectOne(pID);
             
             
-            OracleCommand command = db.CreateCommand(SQL_SELECT_TEAMMATES);
-            command.Parameters.AddWithValue(":id", pID);
-            command.Parameters.AddWithValue(":tID", tmp.Team_Id.Id);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_TEAMMATES);
+            command.Parameters.AddWithValue("@id", pID);
+            command.Parameters.AddWithValue("@tID", tmp.Team_Id.Id);
 
-            OracleDataReader reader = db.Select(command);
+            SqlDataReader reader = db.Select(command);
 
-            Collection<Person> Users = Read(reader);
+            List<Person> Users = Read(reader);
             reader.Close();
 
             if (pDb == null)

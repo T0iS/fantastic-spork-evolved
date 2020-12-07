@@ -4,32 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using Oracle.ManagedDataAccess.Client;
+using System.Data.SqlClient;
 
-namespace EsportWiki_EIS0011.Database.FunctionalityClasses
+namespace DataLayer.Database.FunctionalityClasses
 {
-    class EventTable
+    public class EventTable
     {
-        public static String SQL_INSERT = "INSERT INTO Event (Id, Name, Organiser, Prizepool, EVDATE) VALUES (:id, :name, :organiser, :pp, :ed)";
-        public static String SQL_UPDATE = "UPDATE Event SET Name=:name, Organiser=:organiser, Prizepool=:pp, EVDATE=:ed WHERE Id=:id";
-        public static String SQL_DELETE_ID = "DELETE FROM Event WHERE Id=:id";
+        public static String SQL_INSERT = "INSERT INTO Event (Id, Name, Organiser, Prizepool, EVDATE) VALUES (@id, @name, @organiser, @pp, @ed)";
+        public static String SQL_UPDATE = "UPDATE Event SET Name=@name, Organiser=@organiser, Prizepool=@pp, EVDATE=@ed WHERE Id=@id";
+        public static String SQL_DELETE_ID = "DELETE FROM Event WHERE Id=@id";
         public static String SQL_SELECT = "SELECT * FROM Event order by Name asc";
-        public static String SQL_SELECT_ONE = "SELECT * FROM Event WHERE Id=:id";
+        public static String SQL_SELECT_ONE = "SELECT * FROM Event WHERE Id=@id";
         public static String SQL_SELECT_LAST = "SELECT MAX(Id) FROM Event";
-        public static String SQL_SELECT_ONE_PAR = "SELECT * FROM Event WHERE Organiser=:org AND EVDATE=:ed";
+        public static String SQL_SELECT_ONE_PAR = "SELECT * FROM Event WHERE Organiser=@org AND EVDATE=@ed";
 
 
-        private static void PrepareCommand(OracleCommand command, Event e)
+        private static void PrepareCommand(SqlCommand command, Event e)
         {
-            command.BindByName = true;
-            command.Parameters.AddWithValue(":id", e.Id);
-            command.Parameters.AddWithValue(":name", e.Name); 
-            command.Parameters.AddWithValue(":organiser", e.Organiser);
-            command.Parameters.AddWithValue(":pp", e.Prizepool); 
-            command.Parameters.AddWithValue(":ed", e.EVDATE);
+            
+            command.Parameters.AddWithValue("@id", e.Id);
+            command.Parameters.AddWithValue("@name", e.Name); 
+            command.Parameters.AddWithValue("@organiser", e.Organiser);
+            command.Parameters.AddWithValue("@pp", e.Prizepool); 
+            command.Parameters.AddWithValue("@ed", e.EVDATE);
         }
 
-        private static Collection<Event> Read(OracleDataReader reader)
+        private static Collection<Event> Read(SqlDataReader reader)
         {
             Collection<Event> Events = new Collection<Event>();
 
@@ -49,7 +49,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             }
             return Events;
         }
-        private static int ReadLast(OracleDataReader reader)
+        private static int ReadLast(SqlDataReader reader)
         {
            
             int ret = 0;
@@ -69,7 +69,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_INSERT);
+            SqlCommand command = db.CreateCommand(SQL_INSERT);
             PrepareCommand(command, e);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
@@ -97,7 +97,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             e.Id = ++event_id;
 
 
-            OracleCommand command = db.CreateCommand(SQL_INSERT);
+            SqlCommand command = db.CreateCommand(SQL_INSERT);
             PrepareCommand(command, e);
             int ret = 0;
             try
@@ -120,7 +120,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_UPDATE);
+            SqlCommand command = db.CreateCommand(SQL_UPDATE);
             PrepareCommand(command, e);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
@@ -132,9 +132,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_DELETE_ID);
+            SqlCommand command = db.CreateCommand(SQL_DELETE_ID);
 
-            command.Parameters.AddWithValue(":id", id);
+            command.Parameters.AddWithValue("@id", id);
             int ret = db.ExecuteNonQuery(command);
 
             db.Close();
@@ -155,8 +155,8 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT);
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT);
+            SqlDataReader reader = db.Select(command);
 
             Collection<Event> Users = Read(reader);
             reader.Close();
@@ -182,9 +182,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_ONE);
-            command.Parameters.AddWithValue(":id", pID);
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_ONE);
+            command.Parameters.AddWithValue("@id", pID);
+            SqlDataReader reader = db.Select(command);
 
             Event Users = Read(reader).First();
             reader.Close();
@@ -210,10 +210,10 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_ONE_PAR);
-            command.Parameters.AddWithValue(":org", or);
-            command.Parameters.AddWithValue(":ed", DateTime.Now.Year.ToString());
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_ONE_PAR);
+            command.Parameters.AddWithValue("@org", or);
+            command.Parameters.AddWithValue("@ed", DateTime.Now.Year.ToString());
+            SqlDataReader reader = db.Select(command);
 
             Collection<Event> Users = Read(reader);
             reader.Close();
@@ -238,9 +238,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_LAST);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_LAST);
             
-            OracleDataReader reader = db.Select(command);
+            SqlDataReader reader = db.Select(command);
 
             int res = ReadLast(reader);
             reader.Close();

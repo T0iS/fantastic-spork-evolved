@@ -1,0 +1,14 @@
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\EsportWiki_EIS0011.exe.config
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\EsportWiki_EIS0011.exe
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\EsportWiki_EIS0011.pdb
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\EsportWiki_EIS0011.csprojAssemblyReference.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\EsportWiki_EIS0011.Form1.resources
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\EsportWiki_EIS0011.Form2.resources
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\EsportWiki_EIS0011.Form3.resources
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\EsportWiki_EIS0011.Properties.Resources.resources
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\EsportWiki_EIS0011.csproj.GenerateResource.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\EsportWiki_EIS0011.csproj.CoreCompileInputs.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\EsportWiki_EIS0011.csproj.CopyComplete
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\EsportWiki_EIS0011.exe
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\EsportWiki_EIS0011.pdb

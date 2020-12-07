@@ -4,26 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using Oracle.ManagedDataAccess.Client;
+using System.Data.SqlClient;
+using System.Data;
 
-namespace EsportWiki_EIS0011.Database.FunctionalityClasses
+namespace DataLayer.Database.FunctionalityClasses
 {
-    class GameTable
+    public class GameTable
     {
-        public static string SQL_INSERT = "INSERT INTO Game (Id, Name) VALUES (:id, :name)";
-        public static String SQL_UPDATE = "UPDATE Game SET Name=:name WHERE Id=:id";
-        public static String SQL_DELETE_ID = "DELETE FROM Game WHERE Id=:id";
+        public static string SQL_INSERT = "INSERT INTO Game (Id, Name) VALUES (@id, @name)";
+        public static String SQL_UPDATE = "UPDATE Game SET Name=@name WHERE Id=@id";
+        public static String SQL_DELETE_ID = "DELETE FROM Game WHERE Id=@id";
         public static String SQL_SELECT = "SELECT * FROM Game";
-        public static String SQL_SELECT_ONE = "SELECT * FROM Game WHERE Id=:id";
+        public static String SQL_SELECT_ONE = "SELECT * FROM Game WHERE Id=@id";
 
-        private static void PrepareCommand(OracleCommand command, Game game)
+        private static void PrepareCommand(SqlCommand command, Game game)
         {
-            command.BindByName = true;
-            command.Parameters.AddWithValue(":id", game.Id);
-            command.Parameters.AddWithValue(":name", game.Name);
+
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+            command.Parameters["@id"].Value = game.Id;
+
+            command.Parameters.Add(new SqlParameter("@name", SqlDbType.VarChar));
+            command.Parameters["@name"].Value = game.Name;
+
         }
 
-        private static Collection<Game> Read(OracleDataReader reader)
+        private static Collection<Game> Read(SqlDataReader reader)
         {
             Collection<Game> Games = new Collection<Game>();
 
@@ -43,7 +48,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_INSERT);
+            SqlCommand command = db.CreateCommand(SQL_INSERT);
             PrepareCommand(command, game);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
@@ -55,7 +60,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_UPDATE);
+            SqlCommand command = db.CreateCommand(SQL_UPDATE);
             PrepareCommand(command, game);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
@@ -75,8 +80,8 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT);
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT);
+            SqlDataReader reader = db.Select(command);
 
             Collection<Game> Users = Read(reader);
             reader.Close();
@@ -102,9 +107,10 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
                 db = (DatabaseT)pDb;
             }
 
-            OracleCommand command = db.CreateCommand(SQL_SELECT_ONE);
-            command.Parameters.AddWithValue(":id", gID);
-            OracleDataReader reader = db.Select(command);
+            SqlCommand command = db.CreateCommand(SQL_SELECT_ONE);
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+            command.Parameters["@id"].Value = gID;
+            SqlDataReader reader = db.Select(command);
 
             Game g = Read(reader).First();
             reader.Close();
@@ -121,9 +127,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
         {
             DatabaseT db = new DatabaseT();
             db.Connect();
-            OracleCommand command = db.CreateCommand(SQL_DELETE_ID);
+            SqlCommand command = db.CreateCommand(SQL_DELETE_ID);
 
-            command.Parameters.AddWithValue(":id", id);
+            command.Parameters.AddWithValue("@id", id);
             int ret = db.ExecuteNonQuery(command);
 
             db.Close();

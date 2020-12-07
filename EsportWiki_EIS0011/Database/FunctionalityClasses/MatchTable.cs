@@ -5,35 +5,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Oracle.ManagedDataAccess.Client;
+using System.Data.SqlClient;
 
-
-namespace EsportWiki_EIS0011.Database.FunctionalityClasses
+namespace DataLayer.Database.FunctionalityClasses
 {
-    class MatchTable
+    public class MatchTable
     {
   
-    public static String SQL_INSERT = "INSERT INTO Match (Id, MNUM, MATCHDATE, Win, Score, Game_id, Event_id) VALUES (:id, :num, :md, :Win, :score, :game_id, :event_id)";
+    public static String SQL_INSERT = "INSERT INTO Match (Id, MNUM, MATCHDATE, Win, Score, Game_id, Event_id) VALUES (@id, @num, @md, @Win, @score, @game_id, @event_id)";
 
-    public static String SQL_UPDATE = "UPDATE Match SET MNUM=:num, MATCHDATE=:md, Win=:Win, Score=:score, " +
-            "Game_id=:game_id, Event_id=:event_id WHERE Id=:id";
-    public static String SQL_DELETE_ID = "DELETE FROM Match WHERE MNUM=:num";
+    public static String SQL_UPDATE = "UPDATE Match SET MNUM=@num, MATCHDATE=@md, Win=@Win, Score=@score, " +
+            "Game_id=@game_id, Event_id=@event_id WHERE Id=@id";
+    public static String SQL_DELETE_ID = "DELETE FROM Match WHERE MNUM=@num";
     public static String SQL_SELECT = "SELECT * FROM Match";
 
 
-    private static void PrepareCommand(OracleCommand command, Match m)
+    private static void PrepareCommand(SqlCommand command, Match m)
     {
-        command.BindByName = true;
-        command.Parameters.AddWithValue(":id", m.Id);
-        command.Parameters.AddWithValue(":num", m.MNUM);
-        command.Parameters.AddWithValue(":md", m.MATCHDATE);
-        command.Parameters.AddWithValue(":Win", m.Win);
-        command.Parameters.AddWithValue(":score", m.Score);
-        command.Parameters.AddWithValue(":game_id", m.Game_Id.Id);
-        command.Parameters.AddWithValue(":event_id", m.Event_Id.Id);
+        
+        command.Parameters.AddWithValue("@id", m.Id);
+        command.Parameters.AddWithValue("@num", m.MNUM);
+        command.Parameters.AddWithValue("@md", m.MATCHDATE);
+        command.Parameters.AddWithValue("@Win", m.Win);
+        command.Parameters.AddWithValue("@score", m.Score);
+        command.Parameters.AddWithValue("@game_id", m.Game_Id.Id);
+        command.Parameters.AddWithValue("@event_id", m.Event_Id.Id);
         
     }
 
-    private static Collection<Match> Read(OracleDataReader reader)
+    private static Collection<Match> Read(SqlDataReader reader)
     {
         Collection<Match> Matches = new Collection<Match>();
 
@@ -66,7 +66,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
     {
         DatabaseT db = new DatabaseT();
         db.Connect();
-        OracleCommand command = db.CreateCommand(SQL_INSERT);
+        SqlCommand command = db.CreateCommand(SQL_INSERT);
         PrepareCommand(command, m);
         int ret = db.ExecuteNonQuery(command);
         db.Close();
@@ -78,7 +78,7 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
     {
         DatabaseT db = new DatabaseT();
         db.Connect();
-        OracleCommand command = db.CreateCommand(SQL_UPDATE);
+        SqlCommand command = db.CreateCommand(SQL_UPDATE);
         PrepareCommand(command, m);
         int ret = db.ExecuteNonQuery(command);
         db.Close();
@@ -90,9 +90,9 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
     {
         DatabaseT db = new DatabaseT();
         db.Connect();
-        OracleCommand command = db.CreateCommand(SQL_DELETE_ID);
+        SqlCommand command = db.CreateCommand(SQL_DELETE_ID);
 
-        command.Parameters.AddWithValue(":num", matchNumber);
+        command.Parameters.AddWithValue("@num", matchNumber);
         int ret = db.ExecuteNonQuery(command);
 
         db.Close();
@@ -113,8 +113,8 @@ namespace EsportWiki_EIS0011.Database.FunctionalityClasses
             db = (DatabaseT)pDb;
         }
 
-        OracleCommand command = db.CreateCommand(SQL_SELECT);
-        OracleDataReader reader = db.Select(command);
+        SqlCommand command = db.CreateCommand(SQL_SELECT);
+        SqlDataReader reader = db.Select(command);
 
         Collection<Match> Users = Read(reader);
         reader.Close();

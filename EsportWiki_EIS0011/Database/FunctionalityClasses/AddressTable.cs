@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EsportWiki_EIS0011.Database.FunctionalityClasses
+namespace DataLayer.Database.FunctionalityClasses
 {
-    class AddressTable
+    public class AddressTable
     {
+        public string desc { get; set; }
+        public string text { get; set; }
     }
 }

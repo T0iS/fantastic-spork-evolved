@@ -1,4 +1,4 @@
-﻿namespace EsportWiki_EIS0011
+﻿namespace DataLayer
 {
     partial class Form1
     {

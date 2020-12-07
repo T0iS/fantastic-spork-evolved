@@ -1,0 +1,33 @@
+﻿@using DataLayer.Database;
+
+@{
+    ViewBag.Title = "Contact";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<table class="table table-bordered table-responsive table-hover">
+
+    <tr>
+
+        <th>Name </th>
+        <th>Surname </th>
+        <th>Role</th>
+        <th>Team</th>
+    </tr>
+
+    @foreach (var item in (List<Person>)ViewData["personList"])
+    {
+
+        <tr>
+
+            <td> @item.First_Name</td>
+            <td>@item.Last_Name</td>
+            <td>@item.Role</td>
+            <td> @item.Team_Id.Name</td>
+
+        </tr>
+
+
+    }
+</table>
