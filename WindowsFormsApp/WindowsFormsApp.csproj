@@ -98,6 +98,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj">
+      <Project>{3a5917f1-318d-49ac-9b4a-e2ed42166c4d}</Project>
+      <Name>BusinessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EsportWiki_EIS0011\DataLayer.csproj">
       <Project>{54887DE3-24A1-44CF-B68B-D148C85CC56E}</Project>
       <Name>DataLayer</Name>

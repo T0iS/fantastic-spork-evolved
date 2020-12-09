@@ -9,3 +9,7 @@ C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\DataLa
 C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\DataLayer.Properties.Resources.resources
 C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\DataLayer.dll
 C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\obj\Debug\DataLayer.pdb
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\BusinessLayer.dll
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\BusinessLayer.pdb
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\Database.mdf
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\EsportWiki_EIS0011\bin\Debug\Database_log.ldf

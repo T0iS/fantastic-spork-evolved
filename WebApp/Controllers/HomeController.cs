@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using DataLayer.Database;
+using BusinessLayer;
 using DataLayer.Database.FunctionalityClasses;
 
 namespace WebApp.Controllers
@@ -50,7 +50,7 @@ namespace WebApp.Controllers
 
         public void AddNewInquiry()
         {
-            //ViewBag.Message = "HUE";
+            //ViewBag.Message = "text";
             
 
         }

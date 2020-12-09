@@ -84,3 +84,7 @@ C:\Users\Tom\source\repos\EsportWiki_EIS0011\WebApp\obj\Debug\WebApp.pdb
 C:\Users\Tom\source\repos\EsportWiki_EIS0011\WebApp\bin\DataLayer.dll
 C:\Users\Tom\source\repos\EsportWiki_EIS0011\WebApp\bin\DataLayer.pdb
 C:\Users\Tom\source\repos\EsportWiki_EIS0011\WebApp\bin\DataLayer.dll.config
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WebApp\bin\BusinessLayer.dll
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WebApp\bin\BusinessLayer.pdb
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WebApp\bin\Database.mdf
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\WebApp\bin\Database_log.ldf

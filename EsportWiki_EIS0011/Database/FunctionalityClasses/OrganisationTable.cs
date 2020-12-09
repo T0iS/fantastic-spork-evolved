@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.SqlClient;
+using System.Data;
+using BusinessLayer;
 
 namespace DataLayer.Database.FunctionalityClasses
 {
@@ -23,12 +25,19 @@ namespace DataLayer.Database.FunctionalityClasses
 
         private static void PrepareCommand(SqlCommand command, Organisation o)
         {
-            
-            command.Parameters.AddWithValue("@id", o.Id);
-            command.Parameters.AddWithValue("@name", o.Name);
-            command.Parameters.AddWithValue("@pID", o.Person_Id.Id);
-            command.Parameters.AddWithValue("@aID", o.Address_Id.Id);
-           
+
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+            command.Parameters["@id"].Value = o.Id;
+
+            command.Parameters.Add(new SqlParameter("@name", SqlDbType.VarChar));
+            command.Parameters["@name"].Value = o.Name;
+
+            command.Parameters.Add(new SqlParameter("@pID", SqlDbType.Int));
+            command.Parameters["@pID"].Value = o.Person_Id.Id;
+
+            command.Parameters.Add(new SqlParameter("@aID", SqlDbType.Int));
+            command.Parameters["@aID"].Value = o.Address_Id.Id;
+
 
         }
 
@@ -58,12 +67,12 @@ namespace DataLayer.Database.FunctionalityClasses
                 Team t = new Team();
                 t.Id = reader.GetInt32(++i);
                 m.Team_Id = t;
-               
+
                 People.Add(m);
             }
             return People;
         }
-    
+
         private static Collection<Organisation> Read(SqlDataReader reader)
         {
             Collection<Organisation> Organisations = new Collection<Organisation>();
@@ -74,25 +83,25 @@ namespace DataLayer.Database.FunctionalityClasses
                 Organisation m = new Organisation();
                 m.Id = reader.GetInt32(++i);
                 m.Name = reader.GetString(++i);
-                
+
                 if (!reader.IsDBNull(++i))
                 {
                     Person p = new Person();
                     p.Id = reader.GetInt32(i);
                     m.Person_Id = p;
                 }
-                
+
                 Address g = new Address();
                 g.Id = reader.GetInt32(++i);
                 m.Address_Id = g;
 
-               
+
 
                 Organisations.Add(m);
             }
             return Organisations;
         }
-        
+
 
         private static int ReadCount(SqlDataReader reader)
         {
@@ -102,7 +111,7 @@ namespace DataLayer.Database.FunctionalityClasses
             {
                 int i = -1;
                 res += reader.GetInt32(++i);
-               
+
             }
             return res;
         }
@@ -125,7 +134,10 @@ namespace DataLayer.Database.FunctionalityClasses
             db.Connect();
             SqlCommand command = db.CreateCommand(SQL_DELETE_ID);
 
-            command.Parameters.AddWithValue("@id", id);
+
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+            command.Parameters["@id"].Value = id;
+
             int ret = db.ExecuteNonQuery(command);
 
             db.Close();
@@ -156,14 +168,14 @@ namespace DataLayer.Database.FunctionalityClasses
                 db.Rollback();
                 return -1;
             }
-            if(PersonTable.SelectOne(pID) == null)
+            if (PersonTable.SelectOne(pID) == null)
             {
                 Console.WriteLine("Osoba nenalezena");
                 db.Rollback();
                 return -1;
             }
 
-            if(o.Person_Id.Id == pID)
+            if (o.Person_Id.Id == pID)
             {
                 Console.WriteLine("Osoba jiz je kontaktni osobou organizace");
                 db.Rollback();
@@ -186,10 +198,10 @@ namespace DataLayer.Database.FunctionalityClasses
                 PersonTable.Update(p);
 
                 o.Person_Id.Id = pID;
-                Update(o);    
+                Update(o);
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 db.Rollback();
@@ -222,7 +234,9 @@ namespace DataLayer.Database.FunctionalityClasses
             }
 
             SqlCommand command = db.CreateCommand(SQL_SELECT_P);
-            command.Parameters.AddWithValue("@id", oID);
+
+            command.Parameters.Add(new SqlParameter("@oID", SqlDbType.Int));
+            command.Parameters["@oID"].Value = oID;
             SqlDataReader reader = db.Select(command);
 
             Collection<Person> Users = ReadP(reader);
@@ -250,7 +264,10 @@ namespace DataLayer.Database.FunctionalityClasses
             }
 
             SqlCommand command = db.CreateCommand(SQL_SELECT_TEAM_COUNT);
-            command.Parameters.AddWithValue("@oID", oID);
+
+            command.Parameters.Add(new SqlParameter("@oID", SqlDbType.Int));
+            command.Parameters["@oID"].Value = oID;
+
             SqlDataReader reader = db.Select(command);
 
             int res = ReadCount(reader);
@@ -279,8 +296,12 @@ namespace DataLayer.Database.FunctionalityClasses
             }
 
             SqlCommand command = db.CreateCommand(SQL_SELECT_TEAM_COUNT_gamePAR);
-            command.Parameters.AddWithValue("@oID", oID);
-            command.Parameters.AddWithValue("@gID", gID);
+
+
+            command.Parameters.Add(new SqlParameter("@oID", SqlDbType.Int));
+            command.Parameters["@oID"].Value = oID;
+            command.Parameters.Add(new SqlParameter("@gID", SqlDbType.Int));
+            command.Parameters["@gID"].Value = gID;
             SqlDataReader reader = db.Select(command);
 
             int res = ReadCount(reader);
@@ -294,7 +315,7 @@ namespace DataLayer.Database.FunctionalityClasses
             return res;
         }
 
-      
+
 
 
         public static Organisation SelectOne(int pID, DatabaseT pDb = null)
@@ -311,7 +332,10 @@ namespace DataLayer.Database.FunctionalityClasses
             }
 
             SqlCommand command = db.CreateCommand(SQL_SELECT_ONE);
-            command.Parameters.AddWithValue("@id", pID);
+
+
+            command.Parameters.Add(new SqlParameter("@oID", SqlDbType.Int));
+            command.Parameters["@oID"].Value = pID;
             SqlDataReader reader = db.Select(command);
 
             Organisation Users = Read(reader).First();

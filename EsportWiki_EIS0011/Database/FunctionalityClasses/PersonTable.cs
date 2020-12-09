@@ -7,11 +7,12 @@ using System.Collections.ObjectModel;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.SqlClient;
 using System.Data;
+using BusinessLayer;
 
 namespace DataLayer.Database.FunctionalityClasses
 {
     public class PersonTable
-    
+
     {
         public static String SQL_INSERT = "INSERT INTO Person (Id, First_Name, Last_Name, Birth_Date, Role, Game_Id, Team_Id) VALUES " +
                 "(@id, @fname, @lname, @birth, @role, @game_id, @team_id)";
@@ -25,12 +26,12 @@ namespace DataLayer.Database.FunctionalityClasses
         public static String SQL_SELECT_TEAMMATES = "SELECT * FROM Person WHERE Id!=@id AND Team_Id=@tID";
         public static String SQL_UPDATE_GAME = "UPDATE Person SET GAME_ID=@game WHERE TEAM_ID=@team";
         public static String SQL_SELECT_SEARCH = "SELECT * from Person WHERE First_Name LIKE @attr OR Last_Name LIKE @attr";
-        
+
 
         private static void PrepareCommand(SqlCommand command, Person p)
         {
-            
-            
+
+
             command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
             command.Parameters["@id"].Value = p.Id;
 
@@ -38,25 +39,31 @@ namespace DataLayer.Database.FunctionalityClasses
             command.Parameters.Add(new SqlParameter("@fname", SqlDbType.VarChar));
             command.Parameters["@fname"].Value = p.First_Name;
 
-            
+
             command.Parameters.Add(new SqlParameter("@lname", SqlDbType.VarChar));
             command.Parameters["@lname"].Value = p.Last_Name;
 
-            
+
             command.Parameters.Add(new SqlParameter("@birth", SqlDbType.Int));
             command.Parameters["@birth"].Value = p.Birth_Date;
 
 
             if (p.Role == null)
             {
-                command.Parameters.AddWithValue("@role", " ");
+
+                command.Parameters.Add(new SqlParameter("@role", SqlDbType.VarChar));
+                command.Parameters["@role"].Value = " ";
             }
             else
             {
-                command.Parameters.AddWithValue("@role", p.Role);
+                command.Parameters.Add(new SqlParameter("@role", SqlDbType.VarChar));
+                command.Parameters["@role"].Value = p.Role;
             }
-            command.Parameters.AddWithValue("@game_id", p.Game_Id.Id);
-            command.Parameters.AddWithValue("@team_id", p.Team_Id.Id);
+
+            command.Parameters.Add(new SqlParameter("@game_id", SqlDbType.Int));
+            command.Parameters["@game_id"].Value = p.Game_Id.Id;
+            command.Parameters.Add(new SqlParameter("@team_id", SqlDbType.Int));
+            command.Parameters["@team_id"].Value = p.Team_Id.Id;
 
         }
 
@@ -86,7 +93,7 @@ namespace DataLayer.Database.FunctionalityClasses
 
                 Team t = new Team();
                 t.Id = reader.GetInt32(++i);
-                t = TeamTable.SelectOne(t.Id);
+                //t = TeamTable.SelectOne(t.Id);
                 m.Team_Id = t;
 
                 People.Add(m);
@@ -123,11 +130,11 @@ namespace DataLayer.Database.FunctionalityClasses
 
             SqlCommand command = db.CreateCommand(SQL_UPDATE);
             PrepareCommand(command, p);
-           
+
             int ret = db.ExecuteNonQuery(command);
             db.Close();
             //db.EndTransaction();
-           
+
             return ret;
         }
         public static int UpdateGame(int tID, int gID, DatabaseT pDb = null)
@@ -136,12 +143,17 @@ namespace DataLayer.Database.FunctionalityClasses
             db.Connect();
             SqlCommand command = db.CreateCommand(SQL_UPDATE_GAME);
 
-            command.Parameters.AddWithValue("@team", gID);
-            command.Parameters.AddWithValue("@game", tID);
+
+            command.Parameters.Add(new SqlParameter("@team", SqlDbType.Int));
+            command.Parameters["@team"].Value = gID;
+
+            command.Parameters.Add(new SqlParameter("@game", SqlDbType.Int));
+            command.Parameters["@game"].Value = tID;
+
             int ret = db.ExecuteNonQuery(command);
             db.Close();
             return ret;
-        }   
+        }
 
 
         public static int Prestup(int pID, int tID, DatabaseT pDb = null)
@@ -163,21 +175,21 @@ namespace DataLayer.Database.FunctionalityClasses
                 return -1;
 
             }
-            if(p.Game_Id.Id != t.Game_Id.Id)
+            if (p.Game_Id.Id != t.Game_Id.Id)
             {
                 p.Game_Id.Id = t.Game_Id.Id;
                 try
                 {
                     Update(p, db);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                     db.Rollback();
                     return -1;
                 }
             }
-            if(p.Role == "Coach")
+            if (p.Role == "Coach")
             {
                 try
                 {
@@ -189,7 +201,7 @@ namespace DataLayer.Database.FunctionalityClasses
                     ot.Person_Id = p;
                     TeamTable.Update(ot);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                     db.Rollback();
@@ -198,9 +210,15 @@ namespace DataLayer.Database.FunctionalityClasses
             }
 
             SqlCommand command = db.CreateCommand(SQL_UPDATE_PRESTUP);
-            
-            command.Parameters.AddWithValue("@team_id", tID);
-            command.Parameters.AddWithValue("@id", pID);
+
+
+
+            command.Parameters.Add(new SqlParameter("@team_id", SqlDbType.Int));
+            command.Parameters["@team_id"].Value = tID;
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+            command.Parameters["@id"].Value = pID;
+
+
             int ret = db.ExecuteNonQuery(command);
 
             command.Dispose();
@@ -228,7 +246,9 @@ namespace DataLayer.Database.FunctionalityClasses
 
             }
 
-            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+            command.Parameters["@id"].Value = id;
+
             int ret = db.ExecuteNonQuery(command);
 
             db.Close();
@@ -255,10 +275,14 @@ namespace DataLayer.Database.FunctionalityClasses
             List<Person> Users = Read(reader);
             reader.Close();
 
-            if (pDb == null)
+            foreach (Person p in Users)
             {
-                db.Close();
+                p.Team_Id = TeamTable.SelectOne(p.Team_Id.Id, db);
             }
+
+
+            db.Close();
+
 
             return Users;
         }
@@ -279,7 +303,7 @@ namespace DataLayer.Database.FunctionalityClasses
 
             SqlCommand command = db.CreateCommand(SQL_SELECT_ONE);
 
-            
+
             command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
             command.Parameters["@id"].Value = pID;
 
@@ -312,10 +336,13 @@ namespace DataLayer.Database.FunctionalityClasses
             SqlCommand command = db.CreateCommand(SQL_SELECT_SEARCH);
 
             attr = "%" + attr + "%";
-            command.Parameters.AddWithValue("@attr", attr);
+
+            command.Parameters.Add(new SqlParameter("@attr", SqlDbType.VarChar));
+            command.Parameters["@attr"].Value = attr;
+
             SqlDataReader reader = db.Select(command);
 
-            List <Person> Users = Read(reader);
+            List<Person> Users = Read(reader);
             reader.Close();
 
             if (pDb == null)
@@ -340,11 +367,15 @@ namespace DataLayer.Database.FunctionalityClasses
             }
 
             Person tmp = SelectOne(pID);
-            
-            
+
+
             SqlCommand command = db.CreateCommand(SQL_SELECT_TEAMMATES);
-            command.Parameters.AddWithValue("@id", pID);
-            command.Parameters.AddWithValue("@tID", tmp.Team_Id.Id);
+
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+            command.Parameters["@id"].Value = pID;
+            command.Parameters.Add(new SqlParameter("@tID", SqlDbType.Int));
+            command.Parameters["@tID"].Value = tmp.Team_Id.Id;
+
 
             SqlDataReader reader = db.Select(command);
 

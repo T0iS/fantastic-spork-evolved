@@ -8,6 +8,7 @@ using Oracle.ManagedDataAccess.Client;
 using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
+using BusinessLayer;
 
 namespace DataLayer.Database.FunctionalityClasses
 {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.SqlClient;
+using BusinessLayer;
 
 namespace DataLayer.Database.FunctionalityClasses
 {

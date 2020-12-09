@@ -1,0 +1,6 @@
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\BusinessLayer\bin\Debug\BusinessLayer.dll
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\BusinessLayer\bin\Debug\BusinessLayer.pdb
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\BusinessLayer\obj\Debug\BusinessLayer.csprojAssemblyReference.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\BusinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\BusinessLayer\obj\Debug\BusinessLayer.dll
+C:\Users\Tom\source\repos\EsportWiki_EIS0011\BusinessLayer\obj\Debug\BusinessLayer.pdb
