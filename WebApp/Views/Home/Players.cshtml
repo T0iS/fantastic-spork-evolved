@@ -1,7 +1,7 @@
 ﻿@using BusinessLayer;
 
 @{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Players";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
@@ -14,19 +14,21 @@
         <th>Surname </th>
         <th>Role</th>
         <th>Team</th>
+        <th>Action</th>
     </tr>
 
     @foreach (var item in (List<Person>)ViewData["personList"])
     {
 
-        <tr>
+    <tr>
 
-            <td> @item.First_Name</td>
-            <td>@item.Last_Name</td>
-            <td>@item.Role</td>
-            <td> @item.Team_Id.Name</td>
+        <td> @item.First_Name</td>
+        <td>@item.Last_Name</td>
+        <td>@item.Role</td>
+        <td> @item.Team_Id.Name</td>
+        <td> <a href="/Home/Edit?id=@item.Id">Edit</a> </td>
 
-        </tr>
+    </tr>
 
 
     }

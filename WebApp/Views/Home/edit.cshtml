@@ -1,0 +1,35 @@
+﻿@using BusinessLayer;
+@model Person
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<h3>@ViewBag.Message</h3>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    
+
+    @using (Html.BeginForm("tryToEdit", "Home"))
+    {
+        <input type="text" name="id" hidden value=@Model.Id>
+        <input type="text" name="firstname" value=@Model.First_Name>
+        <input type="text" name="lastname" value=@Model.Last_Name>
+        <input type="text" name="bdate" value=@Model.Birth_Date>
+        <input type="text" name="role" value=@Model.Role>
+        <input type="text" name="game" value=@Model.Game_Id.Name>
+        <input type="text" name="team"value=@Model.Team_Id.Name>
+
+        <input type="submit" value="Edit" />
+
+    }
+    
+
+
+</body>
+</html>

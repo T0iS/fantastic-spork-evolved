@@ -162,6 +162,7 @@
     <Content Include="Views\Home\Teams.cshtml" />
     <Content Include="Views\Home\Players.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,6 +14,7 @@ namespace DataLayer.Database.FunctionalityClasses
         public static String SQL_DELETE_ID = "DELETE FROM Game WHERE Id=@id";
         public static String SQL_SELECT = "SELECT * FROM Game";
         public static String SQL_SELECT_ONE = "SELECT * FROM Game WHERE Id=@id";
+        public static String SQL_SELECT_ONE_PARAM = "SELECT * FROM Game WHERE Name=@name";
 
         private static void PrepareCommand(SqlCommand command, Game game)
         {
@@ -90,6 +91,35 @@ namespace DataLayer.Database.FunctionalityClasses
             }
 
             return Users;
+        }
+
+        public static Game SelectOneParam(string name, DatabaseT pDb = null)
+        {
+            DatabaseT db;
+            if (pDb == null)
+            {
+                db = new DatabaseT();
+                db.Connect();
+            }
+            else
+            {
+                db = (DatabaseT)pDb;
+            }
+
+            SqlCommand command = db.CreateCommand(SQL_SELECT_ONE_PARAM);
+            command.Parameters.Add(new SqlParameter("@name", SqlDbType.VarChar, name.Length));
+            command.Parameters["@name"].Value = name;
+            SqlDataReader reader = db.Select(command);
+
+            Game g = Read(reader).First();
+            reader.Close();
+
+            if (pDb == null)
+            {
+                db.Close();
+            }
+
+            return g;
         }
 
         public static Game SelectOne(int gID, DatabaseT pDb = null)

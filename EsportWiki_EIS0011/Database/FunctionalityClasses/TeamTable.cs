@@ -260,10 +260,41 @@ namespace DataLayer.Database.FunctionalityClasses
             }
 
             SqlCommand command = db.CreateCommand(SQL_SELECT_PARAM);
-            command.Parameters.AddWithValue("@name", name);
+            
+            command.Parameters.Add(new SqlParameter("@name", SqlDbType.VarChar));
+            command.Parameters["@name"].Value = name;
             SqlDataReader reader = db.Select(command);
 
             List<Team> g = Read(reader);
+            reader.Close();
+
+            if (pDb == null)
+            {
+                db.Close();
+            }
+
+            return g;
+        }
+        public static Team SelectOneByParam(string name, DatabaseT pDb = null)
+        {
+            DatabaseT db;
+            if (pDb == null)
+            {
+                db = new DatabaseT();
+                db.Connect();
+            }
+            else
+            {
+                db = (DatabaseT)pDb;
+            }
+
+            SqlCommand command = db.CreateCommand(SQL_SELECT_PARAM);
+            
+            command.Parameters.Add(new SqlParameter("@name", SqlDbType.VarChar, name.Length));
+            command.Parameters["@name"].Value = name;
+            SqlDataReader reader = db.Select(command);
+
+            Team g = Read(reader).First();
             reader.Close();
 
             if (pDb == null)

@@ -311,6 +311,7 @@ namespace DataLayer.Database.FunctionalityClasses
 
             Person Users = Read(reader).First();
             reader.Close();
+            
 
             if (pDb == null)
             {

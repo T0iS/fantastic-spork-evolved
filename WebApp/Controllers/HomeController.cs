@@ -54,5 +54,26 @@ namespace WebApp.Controllers
             
 
         }
+        
+        public ActionResult Edit(int id)
+        {
+            Person p = PersonTable.SelectOne(id);
+
+            p.Team_Id = TeamTable.SelectOne(p.Team_Id.Id);
+
+            return View(p);
+        }
+
+        [HttpPost]
+        public ActionResult tryToEdit(int id, string firstname, string lastname, string role, string team, int bdate, string game)
+        {
+            Team t = TeamTable.SelectOneByParam(team);
+            Game g = GameTable.SelectOneParam(game);
+            Person p = new Person(id, firstname, lastname, role, g, t, bdate);
+            PersonTable.Update(p);
+
+            return Content(firstname);
+        }
+
     }
 }

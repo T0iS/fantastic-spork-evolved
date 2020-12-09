@@ -11,8 +11,8 @@ namespace DataLayer.Database.FunctionalityClasses
         private SqlTransaction SqlTransaction = null;
         public string Language { get; set; }
 
-        //private static String CONNECTION_STRING = "server=dbsys.cs.vsb.cz\\STUDENT;database=eis0011;user=eis0011;password=pO54vRpOCg;Connection Timeout=600;";
-        private static String CONNECTION_STRING = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Tom\\source\\repos\\EsportWiki_EIS0011\\EsportWiki_EIS0011\\Database.mdf;Integrated Security=True;Connection Timeout=600";
+        private static String CONNECTION_STRING = "server=dbsys.cs.vsb.cz\\STUDENT;database=eis0011;user=eis0011;password=pO54vRpOCg;Connection Timeout=600;";
+        //private static String CONNECTION_STRING = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Tom\\source\\repos\\EsportWiki_EIS0011\\EsportWiki_EIS0011\\Database.mdf;Integrated Security=True;Connection Timeout=600";
 
 
         public DatabaseT()
