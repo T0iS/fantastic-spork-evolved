@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BusinessLayer;
+using DataLayer.Database.IdentityMapers;
 using DataLayer.Database.FunctionalityClasses;
+using DataLayer.Database;
 
 namespace WindowsFormsApp
 {
@@ -56,6 +58,7 @@ namespace WindowsFormsApp
                 comboBoxTeam.SelectedIndex = -1;
                 comboBoxTransfer.SelectedIndex = -1;
 
+                PersonMap.setGotAllFalse();
 
                 
 
@@ -69,7 +72,7 @@ namespace WindowsFormsApp
                 button2.Visible = false;
 
                 Person p = new Person();
-                p = PersonTable.SelectOne(Int32.Parse(p_id));
+                p = PersonMap.getPerson(Int32.Parse(p_id));
 
                 textBox1.Text = p.First_Name;
                 textBox5.Text = p.Last_Name;
@@ -98,7 +101,7 @@ namespace WindowsFormsApp
                     idx++;
                 }
 
-                var games = GameTable.Select();
+                var games = GameMap.getAll();
                 foreach (Game g in games)
                 {
                     comboBoxGame.Items.Add(g.Name);
@@ -106,7 +109,7 @@ namespace WindowsFormsApp
                 comboBoxGame.SelectedIndex = p.Game_Id.Id-1;
 
 
-                var teams = TeamTable.Select();
+                var teams = TeamMap.getAll();
                 foreach (Team t in teams)
                 {
                     comboBoxTeam.Items.Add(t.Name);
@@ -123,7 +126,7 @@ namespace WindowsFormsApp
                 button2.Visible = false;
 
                 Person p = new Person();
-                p = PersonTable.SelectOne(Int32.Parse(p_id));
+                p = PersonMap.getPerson(Int32.Parse(p_id));
 
                 textBox1.Text = p.First_Name;
                 textBox5.Text = p.Last_Name;
@@ -151,7 +154,7 @@ namespace WindowsFormsApp
                     idx++;
                 }
 
-                var games = GameTable.Select();
+                var games = GameMap.getAll();
                 foreach (Game g in games)
                 {
                     comboBoxGame.Items.Add(g.Name);
@@ -159,7 +162,7 @@ namespace WindowsFormsApp
                 comboBoxGame.SelectedIndex = p.Game_Id.Id - 1;
 
 
-                var teams = TeamTable.Select();
+                var teams = TeamMap.getAll();
                 foreach (Team t in teams)
                 {
                     comboBoxTeam.Items.Add(t.Name);
@@ -247,10 +250,10 @@ namespace WindowsFormsApp
             if (DialogResult.Yes == MessageBox.Show("Do you really want to add this player?", "", MessageBoxButtons.YesNo))
             {
                 Person p = new Person();
-                var tmp = PersonTable.Select();
+                
                 try
                 {
-                    p.Id = tmp.Count + 1;
+                    p.Id = PersonMap.getAll().Count + 1;
                     p.First_Name = textBox1.Text;
                     p.Last_Name = textBox5.Text;
                     p.Birth_Date = Int32.Parse(textBox4.Text);

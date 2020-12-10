@@ -72,7 +72,13 @@ namespace WebApp.Controllers
             Person p = new Person(id, firstname, lastname, role, g, t, bdate);
             PersonTable.Update(p);
 
-            return Content(firstname);
+            return RedirectToAction("Players");
+        }
+
+        [HttpPost]
+        public ActionResult add(int id, string firstname, string lastname, string role, string team, int bdate, string game)
+        {
+
         }
 
     }

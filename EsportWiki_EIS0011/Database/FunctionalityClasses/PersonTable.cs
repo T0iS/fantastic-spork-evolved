@@ -126,6 +126,10 @@ namespace DataLayer.Database.FunctionalityClasses
                 ot.Person_Id = null;
                 TeamTable.Update(ot);
             }
+            if(prv.Team_Id.Id != p.Team_Id.Id)
+            {
+                Prestup(p.Id, p.Team_Id.Id);
+            }
 
 
             SqlCommand command = db.CreateCommand(SQL_UPDATE);
@@ -134,7 +138,7 @@ namespace DataLayer.Database.FunctionalityClasses
             int ret = db.ExecuteNonQuery(command);
             db.Close();
             //db.EndTransaction();
-
+            PersonMap.setGotAllFalse();
             return ret;
         }
         public static int UpdateGame(int tID, int gID, DatabaseT pDb = null)
@@ -152,6 +156,8 @@ namespace DataLayer.Database.FunctionalityClasses
 
             int ret = db.ExecuteNonQuery(command);
             db.Close();
+            PersonMap.setGotAllFalse();
+
             return ret;
         }
 
@@ -162,7 +168,7 @@ namespace DataLayer.Database.FunctionalityClasses
             db.Connect();
             Person p = null;
             Team t = null;
-            db.BeginTransaction();
+            //db.BeginTransaction();
             try
             {
                 p = SelectOne(pID);
@@ -222,11 +228,12 @@ namespace DataLayer.Database.FunctionalityClasses
             int ret = db.ExecuteNonQuery(command);
 
             command.Dispose();
-            db.EndTransaction();
+           // db.EndTransaction();
             if (pDb == null)
             {
                 db.Close();
             }
+            PersonMap.setGotAllFalse();
             return ret;
         }
 
@@ -252,6 +259,7 @@ namespace DataLayer.Database.FunctionalityClasses
             int ret = db.ExecuteNonQuery(command);
 
             db.Close();
+            PersonMap.setGotAllFalse();
             return ret;
         }
 

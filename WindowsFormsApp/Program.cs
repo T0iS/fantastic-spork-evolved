@@ -25,6 +25,8 @@ namespace WindowsFormsApp
             DatabaseT db = new DatabaseT();
             db.Connect();
 
+            PersonMap personMap = new PersonMap();
+
            
             
             /*

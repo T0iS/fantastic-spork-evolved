@@ -80,6 +80,9 @@
     <Compile Include="Database\FunctionalityClasses\PersonTable.cs" />
     <Compile Include="Database\FunctionalityClasses\System_userTable.cs" />
     <Compile Include="Database\FunctionalityClasses\TeamTable.cs" />
+    <Compile Include="Database\IdentityMapers\GameMap.cs" />
+    <Compile Include="Database\IdentityMapers\PersonMap.cs" />
+    <Compile Include="Database\IdentityMapers\TeamMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

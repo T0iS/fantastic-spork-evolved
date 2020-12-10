@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Data;
 using BusinessLayer;
+using System.Collections.Generic;
+using DataLayer.Database.IdentityMapers;
 
 namespace DataLayer.Database.FunctionalityClasses
 {
@@ -27,9 +28,9 @@ namespace DataLayer.Database.FunctionalityClasses
 
         }
 
-        private static Collection<Game> Read(SqlDataReader reader)
+        private static List<Game> Read(SqlDataReader reader)
         {
-            Collection<Game> Games = new Collection<Game>();
+            List<Game> Games = new List<Game>();
 
             while (reader.Read())
             {
@@ -51,6 +52,7 @@ namespace DataLayer.Database.FunctionalityClasses
             PrepareCommand(command, game);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
+            
             return ret;
         }
 
@@ -63,10 +65,11 @@ namespace DataLayer.Database.FunctionalityClasses
             PrepareCommand(command, game);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
+            GameMap.setGotAllFalse();
             return ret;
         }
 
-        public static Collection<Game> Select(DatabaseT pDb = null)
+        public static List<Game> Select(DatabaseT pDb = null)
         {
             DatabaseT db;
             if (pDb == null)
@@ -82,7 +85,7 @@ namespace DataLayer.Database.FunctionalityClasses
             SqlCommand command = db.CreateCommand(SQL_SELECT);
             SqlDataReader reader = db.Select(command);
 
-            Collection<Game> Users = Read(reader);
+            List<Game> Users = Read(reader);
             reader.Close();
 
             if (pDb == null)
@@ -161,6 +164,7 @@ namespace DataLayer.Database.FunctionalityClasses
             int ret = db.ExecuteNonQuery(command);
 
             db.Close();
+            GameMap.setGotAllFalse();
             return ret;
         }
 

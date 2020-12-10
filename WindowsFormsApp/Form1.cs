@@ -18,7 +18,7 @@ namespace WindowsFormsApp
         public Form1()
         {
             InitializeComponent();
-            //refreshRows();
+            refreshRows();
         }
 
         public void refreshRows(List<Person> pl = null)
@@ -28,7 +28,8 @@ namespace WindowsFormsApp
             TablePlayers.Rows.Clear();
             if (pl == null)
             {
-                players = PersonTable.Select();
+                players = PersonMap.getAll();
+
             }
             else
             {

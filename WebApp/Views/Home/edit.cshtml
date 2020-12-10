@@ -13,22 +13,38 @@
     <title></title>
 </head>
 <body>
-    
 
+    
     @using (Html.BeginForm("tryToEdit", "Home"))
     {
-        <input type="text" name="id" hidden value=@Model.Id>
-        <input type="text" name="firstname" value=@Model.First_Name>
-        <input type="text" name="lastname" value=@Model.Last_Name>
-        <input type="text" name="bdate" value=@Model.Birth_Date>
-        <input type="text" name="role" value=@Model.Role>
-        <input type="text" name="game" value=@Model.Game_Id.Name>
-        <input type="text" name="team"value=@Model.Team_Id.Name>
 
-        <input type="submit" value="Edit" />
+    <div style="display:flex;flex-direction:row;justify-content:center;">
+        <div style="text-align:center;margin-top:50px; margin-right:5px;">
+            
+            <p>Name</p>
+            <p>Surname</p>
+            <p>Birth year</p>
+            <p>Role</p>
+            <p>Game</p>
+            <p>Team</p>
+            <p></p>
+        </div>
+        <div style="text-align:center;">
+            <h3>Edit player</h3>
+
+            <p><input type="text" name="firstname" value=@Model.First_Name></p>
+            <p><input type="text" name="lastname" value=@Model.Last_Name></p>
+            <p><input type="text" name="bdate" value=@Model.Birth_Date></p>
+            <p><input type="text" name="role" value=@Model.Role></p>
+            <p><input type="text" name="game" value=@Model.Game_Id.Name></p>
+            <p><input type="text" name="team" value=@Model.Team_Id.Name></p>
+            <p><input type="submit" value="Edit" /></p>
+
+        </div>
+    </div>
 
     }
-    
+
 
 
 </body>

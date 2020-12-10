@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
 using BusinessLayer;
+using DataLayer.Database.IdentityMapers;
 
 namespace DataLayer.Database.FunctionalityClasses
 {
@@ -140,6 +141,7 @@ namespace DataLayer.Database.FunctionalityClasses
             PrepareCommand(command, t);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
+            TeamMap.setGotAllFalse();
             return ret;
         }
 
