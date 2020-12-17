@@ -1,0 +1,29 @@
+﻿@using BusinessLayer;
+
+@{
+    ViewBag.Title = "Change Game";
+}
+<h2>@ViewBag.Title.</h2>
+
+
+<table class="table table-bordered table-responsive table-hover">
+
+    <tr>
+
+        <th>Name </th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in (List<Game>)ViewData["gameList"])
+    {
+
+        <tr>
+
+            <td> @item.Name</td>
+            <td> <a href="/Home/tryToChangeGame?id_team=@ViewBag.Message&id_game=@item.Id">Select</a> </td>
+
+        </tr>
+
+
+    }
+</table>

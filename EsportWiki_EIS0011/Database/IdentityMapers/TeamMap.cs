@@ -28,11 +28,27 @@ namespace DataLayer.Database.IdentityMapers
             }
         }
 
-        public static Team getPerson(int id)
+        public static Team getTeam(int id)
         {
             if (!teamMap.ContainsKey(id))
                 addTeam(TeamTable.SelectOne(id));
             return teamMap[id];
+        }
+
+        public static Team getTeamByName(string name)
+        {
+            if (gotAll == false)
+            {
+                getAll();
+            }
+                foreach (KeyValuePair<int, Team> t in teamMap)
+            {
+                if(t.Value.Name == name)
+                {
+                    return t.Value;
+                }
+            }
+            return null;
         }
 
 

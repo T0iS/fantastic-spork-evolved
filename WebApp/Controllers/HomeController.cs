@@ -5,7 +5,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessLayer;
+using DataLayer.Database;
 using DataLayer.Database.FunctionalityClasses;
+using DataLayer.Database.IdentityMapers;
 
 namespace WebApp.Controllers
 {
@@ -30,7 +32,7 @@ namespace WebApp.Controllers
            
             List<Team> teams;
 
-            teams = TeamTable.Select();
+            teams = TeamMap.getAll();
             ViewData["personList"] = teams;
 
             return View();
@@ -42,7 +44,7 @@ namespace WebApp.Controllers
 
             List<Person> players;
 
-            players = PersonTable.Select();
+            players = PersonMap.getAll();
             ViewData["personList"] = players;
 
             return View();
@@ -59,26 +61,73 @@ namespace WebApp.Controllers
         {
             Person p = PersonTable.SelectOne(id);
 
-            p.Team_Id = TeamTable.SelectOne(p.Team_Id.Id);
+            p.Team_Id = TeamMap.getTeam(p.Team_Id.Id);
 
             return View(p);
         }
+        public ActionResult Add()
+        {
+            return View();
+        }
+
+        public ActionResult ChangeGame(string id)
+        {
+            List<Game> games;
+
+            games = GameMap.getAll();
+            ViewData["gameList"] = games;
+            ViewBag.Message = id;
+
+            return View();
+        }
 
         [HttpPost]
-        public ActionResult tryToEdit(int id, string firstname, string lastname, string role, string team, int bdate, string game)
+        public ActionResult tryToEdit(string id, string firstname, string lastname, string role, string team, string bdate, string game)
         {
-            Team t = TeamTable.SelectOneByParam(team);
-            Game g = GameTable.SelectOneParam(game);
-            Person p = new Person(id, firstname, lastname, role, g, t, bdate);
-            PersonTable.Update(p);
-
+            try
+            {
+                Team t = TeamMap.getTeamByName(team);
+                Game g = GameMap.getGameByName(game);
+                Person p = new Person(Int32.Parse(id), firstname, lastname, role, g, t, Int32.Parse(bdate));
+                PersonTable.Update(p);
+            }
+            catch(Exception e)
+            {
+                
+            }
             return RedirectToAction("Players");
         }
 
         [HttpPost]
-        public ActionResult add(int id, string firstname, string lastname, string role, string team, int bdate, string game)
+        public ActionResult tryToAdd(string firstname, string lastname, string role, string team, string bdate, string game)
         {
+            try
+            {
+                Team t = TeamMap.getTeamByName(team);
+                Game g = GameMap.getGameByName(game);
+                int id = PersonMap.getAll().Count + 1;
+                Person p = new Person(id, firstname, lastname, role, g, t, Int32.Parse(bdate));
+                PersonTable.Insert(p);
+            }
+            catch(Exception e)
+            {
 
+            }
+            return RedirectToAction("Players");
+        }
+
+        [HttpGet]
+        public ActionResult tryToChangeGame(string id_team, string id_game)
+        {
+            try { 
+                Team t = TeamMap.getTeam(Int32.Parse(id_team));
+                TeamTable.ZmenitHru(t, Int32.Parse(id_game));
+            }
+            catch(Exception e)
+            {
+
+            }
+            return RedirectToAction("Teams");
         }
 
     }

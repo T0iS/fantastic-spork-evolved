@@ -415,7 +415,8 @@ namespace DataLayer.Database.FunctionalityClasses
 
 
             SqlCommand command = db.CreateCommand(SQL_SELECT_COUNT);
-            command.Parameters.AddWithValue("@gID", gID);
+            command.Parameters.Add(new SqlParameter("@gID", SqlDbType.Int));
+            command.Parameters["@gID"].Value = gID;
             SqlDataReader reader = db.Select(command);
 
             int res = ReadCount(reader);
@@ -426,6 +427,8 @@ namespace DataLayer.Database.FunctionalityClasses
             {
                 db.Close();
             }
+
+            TeamMap.setGotAllFalse();
 
             return res;
         }

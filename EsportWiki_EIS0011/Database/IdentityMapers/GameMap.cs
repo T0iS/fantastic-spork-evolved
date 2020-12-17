@@ -28,11 +28,28 @@ namespace DataLayer.Database.IdentityMapers
             }
         }
 
-        public static Game getPerson(int id)
+        public static Game getGame(int id)
         {
             if (!gameMap.ContainsKey(id))
                 addGame(GameTable.SelectOne(id));
             return gameMap[id];
+        }
+
+        public static Game getGameByName(string name)
+        {
+            if (gotAll == false)
+            {
+                getAll();
+            }
+
+            foreach (KeyValuePair<int, Game> g in gameMap)
+            {
+                if (g.Value.Name == name)
+                {
+                    return g.Value;
+                }
+            }
+            return null;
         }
 
 

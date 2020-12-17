@@ -1,4 +1,5 @@
-﻿@{
+﻿@using BusinessLayer;
+@{
     Layout = null;
 }
 
@@ -10,7 +11,7 @@
     <title></title>
 </head>
 <body>
-    @using (Html.BeginForm("add", "Home"))
+    @using (Html.BeginForm("tryToAdd", "Home"))
     {
 
         <div style="display:flex;flex-direction:row;justify-content:center;">
@@ -25,14 +26,14 @@
                 <p></p>
             </div>
             <div style="text-align:center;">
-                <h3>Edit player</h3>
+                <h3>Add player</h3>
 
-                <p><input type="text" name="firstname" value=@Model.First_Name></p>
-                <p><input type="text" name="lastname" value=@Model.Last_Name></p>
-                <p><input type="text" name="bdate" value=@Model.Birth_Date></p>
-                <p><input type="text" name="role" value=@Model.Role></p>
-                <p><input type="text" name="game" value=@Model.Game_Id.Name></p>
-                <p><input type="text" name="team" value=@Model.Team_Id.Name></p>
+                <p><input type="text" name="firstname" ></p>
+                <p><input type="text" name="lastname" ></p>
+                <p><input type="text" name="bdate" ></p>
+                <p><input type="text" name="role" ></p>
+                <p><input type="text" name="game" ></p>
+                <p><input type="text" name="team" ></p>
                 <p><input type="submit" value="Edit" /></p>
 
             </div>

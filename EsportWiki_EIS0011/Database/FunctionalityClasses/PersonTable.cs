@@ -110,6 +110,7 @@ namespace DataLayer.Database.FunctionalityClasses
             PrepareCommand(command, p);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
+            PersonMap.setGotAllFalse();
             return ret;
         }
 
@@ -149,10 +150,10 @@ namespace DataLayer.Database.FunctionalityClasses
 
 
             command.Parameters.Add(new SqlParameter("@team", SqlDbType.Int));
-            command.Parameters["@team"].Value = gID;
+            command.Parameters["@team"].Value = tID;
 
             command.Parameters.Add(new SqlParameter("@game", SqlDbType.Int));
-            command.Parameters["@game"].Value = tID;
+            command.Parameters["@game"].Value = gID;
 
             int ret = db.ExecuteNonQuery(command);
             db.Close();

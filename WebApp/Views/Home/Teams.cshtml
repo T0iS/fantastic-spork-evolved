@@ -14,20 +14,22 @@
         <th>Contact person </th>
         <th>Game</th>
         <th>Organisation</th>
+        <th>Actions</th>
     </tr>
 
     @foreach (var item in (List<Team>)ViewData["personList"])
     {
 
-        <tr>
+    <tr>
 
-            <td> @item.Name</td>
-            <td>@item.Person_Id.Last_Name</td>
-            <td>@item.Game_Id.Name</td>
-            <td> @item.Organisation_Id.Name</td>
-            
+        <td> @item.Name</td>
+        <td>@item.Person_Id.Last_Name</td>
+        <td>@item.Game_Id.Name</td>
+        <td> @item.Organisation_Id.Name</td>
+        <td> <a href="/Home/ChangeGame?id=@item.Id">Change Game</a> </td>
 
-        </tr>
+
+    </tr>
 
 
     }
